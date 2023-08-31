@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "stogram.h"
 #include "read_file.h"
 #include "error.h"
 
