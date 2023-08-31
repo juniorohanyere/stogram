@@ -1,19 +1,26 @@
-# generates the stogram binary file
-
 CC = gcc
 
-CFALGS = -Wall -Werror -Wextra -pedantic -std=gnu89
+CFLAGS = -Wall -pedantic -Werror -Wextra -std=gnu18
 
-PY = python3
-
-SRCS = stogram.c error.c parser.c read_file.c stack.c
-
-INCLUDES = error.h parser.h read_file.h stack.h stogram.h
+OBJS = \
 
 TARGET = stogram
 
-$(TARGET): all
+all: subsystem $(TARGET)
 
-all: $(CC) -
+$(TARGET): $(OBJS)
+	@$(CC) $(CFLAGS) $^ -o $@
 
+subsystem:
+	-$(MAKE) -C core
 
+obj: deps.h
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean clean-all
+
+clean:
+	@-rm $(OBJS)
+
+clean-all:
+	@-rm *.o
