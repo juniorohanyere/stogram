@@ -3,4 +3,6 @@
 
 #define BUFFER_SIZE 1024
 
+void window(void);
+
 #endif	/* STOGRAM_H */

@@ -1,30 +1,72 @@
-#include <ncurses.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include <ncurses.h>
+#include <term.h>
 
 /**
- * window - creates a window
+ * init_window - function to initialize ncurses and create a window
  *
- * Description: this function uses the ncurses library to create a new window
- *		rather than relying on the usual shell view, the screen is
- *		cleared to imply that the stogram program has begun!
+ * @height: the heigth of the new window
+ * @width: the width of the new window
+ * @y: the starting point of @height
+ * @the starting point of @width
+ *
+ * Return: return a pointer to the newly created window
+*/
+
+WINDOW *init_window(int height, int width, int starty, int startx)
+{
+	WINDOW *win;
+
+	win = newwin(height, width, starty, startx);
+	scrollok(win, TRUE);  /* enable scrolling */
+
+	return (win);
+}
+
+/**
+ * scroll_down - function to scroll the window by one line downward
+ *
+ * @win: the window to perform a down scroll on
  *
  * Return: return nothing
 */
 
-void window(void)
+void scroll_down(WINDOW *win)
 {
-	char *str;
+	scroll(win);  /* scroll the window by one line downward */
+}
 
-	str = malloc(sizeof(char) * 1024);
+/**
+ * scroll_up - function to scroll the window by one line upward
+ *
+ * @win: the window to perform an up scroll on
+ *
+ * Return: return nothing
+*/
 
-	initscr();
+void scroll_up(WINDOW *win)
+{
+	wscrl(win, -1);  /* scroll the window by one line upward */
+}
 
-	printw("The stogram program has begun!, see it in action\n");
-	getstr(str);
+/**
+ * clean_up - makes a final memory allocation clean up
+ *
+ * Description: note that this function does not free all memory. Hence proper
+ *		handling of other frees not defined her is necessary. This
+ *		function ends aims at easing the strain of having to free up
+ *		some constant or global variables
+ *
+ * Return: return nothing
+*/
 
-	printw("%s\nPress any key to exit", str);
-	getch();
-	free(str);
-	refresh();
+void clean_up(void)
+{
 	endwin();
+	del_curterm(cur_term);
+	delwin(stdscr);
+	delwin(curscr);
+	delwin(newscr);
 }
