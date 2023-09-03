@@ -3,6 +3,6 @@
 
 #define BUFFER_SIZE 1024
 
-void window(void);
+int stogram(void);
 
 #endif	/* STOGRAM_H */

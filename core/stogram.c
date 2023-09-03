@@ -1,10 +1,13 @@
-#include <stdlib.h>
 #include <string.h>
-
-#include <term.h>
+#include <panel.h>
+#include <ncurses.h>
+#include <stdlib.h>
 
 #include "window.h"
 #include "stogram.h"
+#include "logo.h"
+#include "exit.h"
+#include "shell.h"
 
 /**
  * main - entry point for stogram
@@ -17,7 +20,7 @@
 
 int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 {
-	window();
+	stogram();
 	return (0);
 }
 
@@ -27,49 +30,39 @@ int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
  * Return: return nothing
 */
 
-void window(void)
+int stogram(void)
 {
-	int max_y, max_x, ch, x, y;
-	WINDOW *scroll_win;
-	char *buffer = malloc(sizeof(char) * 1024);
+	int height, width;
+	WINDOW **windows = malloc(sizeof(WINDOW *) * 1024);
+	PANEL **panels = malloc(sizeof(PANEL *) * 1024);
 
-	initscr();  /* initialize ncurses */
+	/* initialize ncurses */
+	initscr();
 	cbreak();
-	/* noecho(); */
+	echo();
 	keypad(stdscr, TRUE);
+	refresh();
 
-	getmaxyx(stdscr, max_y, max_x);
+	getmaxyx(stdscr, height, width);
 
-	/* create a window larger than the terminal screen */
-	scroll_win = init_window(max_y * 100, max_x, 0, 0);
+	/* create new windows */
+	windows[0] = init_window(height * 2, width, 0, 0);
 
-	/* fill the window with some text */
-	while (1)
-	{
-		getyx(scroll_win, y, x);
+	/* create panel */
+	panels[0] = new_panel(windows[0]);
 
-		mvwprintw(scroll_win, y, x, "$ ");
-		wrefresh(scroll_win);
+	logo_stg(windows[0], 4, 15);
 
-		getyx(scroll_win, y, x);
-		ch = mvwgetstr(scroll_win, y, x, buffer);
-		if (ch == ERR)
-		{
-			free(buffer);
-			delwin(scroll_win);
-			clean_up();
-			exit(EXIT_FAILURE);
-		}
-		if (strcmp(buffer, "exit") == 0)
-		{
-			free(buffer);
-			delwin(scroll_win);
-			clean_up();
-			exit(EXIT_SUCCESS);
-		}
-	}
+	mvwprintw(windows[0], getcury(windows[0]), 0, "::: ");
+	update_panels();
+	doupdate();
 
+	shell(windows, panels);
+	update_panels();
+	doupdate();
+	/* wait for user input */
 	/* clean up */
-	delwin(scroll_win);
-	clean_up();
+	clean_up(windows, panels);
+
+	return (0);
 }
