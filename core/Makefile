@@ -5,20 +5,17 @@ CC = gcc
 
 # the c compiler flags
 CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
-	 -std=gnu2x
+	 -std=gnu2x -I../interpreter
 
 LIBS = -lpanel -lncurses
 
 # object files
-OBJS = array.o exit.o keyboard.o logo.o shell.o stogram.o window.o
+OBJS = array.o exit.o keyboard.o logo.o stogram.o window.o
 
 # the target file to build
 TARGET = ./stogram
 
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
+all: $(OBJS)
 
 array.o: array.c array.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -32,10 +29,7 @@ keyboard.o: keyboard.c array.h exit.h keyboard.h window.h
 logo.o: logo.c logo.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-shell.o: shell.c keyboard.h shell.h stogram.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-stogram.o: stogram.c exit.h logo.h shell.h stogram.h window.h
+stogram.o: stogram.c ../interpreter/shell.h exit.h logo.h stogram.h window.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 window.o: window.c window.h

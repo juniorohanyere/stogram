@@ -1,26 +1,37 @@
+# makefile to build the complete stogram program
+
+# c compiler
 CC = gcc
 
-CFLAGS = -Wall -pedantic -Werror -Wextra -std=gnu18
+LIBS = -lpanel -lncurses
 
-OBJS = \
+# object files
+OBJS = core/*.o interpreter/*.o
 
-TARGET = stogram
+TARGET = core/stogram
 
-all: subsystem $(TARGET)
+all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	@$(CC) $(CFLAGS) $^ -o $@
+$(TARGET): subsystem
+	$(CC) $(OBJS) $(LIBS) -o $@
 
 subsystem:
 	-$(MAKE) -C core
+	-$(MAKE) -C interpreter
 
-obj: deps.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+.PHONY: clean clean-all mem-check run
 
-.PHONY: clean clean-all
+mem-check:
+	@-valgrind --leak-check=full --track-origins=yes \
+	--show-leak-kinds=all $(TARGET)
+run:
+	@./$(TARGET)
 
 clean:
-	@-rm $(OBJS)
+	-$(MAKE) -C core clean
+	-$(MAKE) -C interpreter clean
 
 clean-all:
-	@-rm *.o
+	-$(MAKE) -C core clean-all
+	-$(MAKE) -C interpreter clean-all
+	@-rm $(TARGET)
