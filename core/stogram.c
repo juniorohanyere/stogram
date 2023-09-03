@@ -46,14 +46,14 @@ int stogram(void)
 	getmaxyx(stdscr, height, width);
 
 	/* create new windows */
-	windows[0] = init_window(height * 2, width, 0, 0);
+	windows[0] = init_window(height, width, 0, 0);
 
 	/* create panel */
 	panels[0] = new_panel(windows[0]);
 
 	logo_stg(windows[0], 4, 15);
 
-	mvwprintw(windows[0], getcury(windows[0]), 0, "::: ");
+	mvwprintw(windows[0], getcury(windows[0]), 0, "\n");
 	update_panels();
 	doupdate();
 

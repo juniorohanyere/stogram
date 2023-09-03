@@ -28,10 +28,9 @@
 int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
 	char *buffer)
 {
-	int ch, i, j = 0, length = 0;
-	char *ch_dup = malloc(sizeof(char) * 2);
+	int ch, i, length = 0;
 	keymap_t map[] = {
-		{KEY_F(1), exit_st}, /*{KEY_UP, history_up}, {KEY_DOWN, history_down},
+		{KEY_F(1), exit_st}, {KEY_UP, new_line}, /*{KEY_DOWN, history_down},
 		{KEY_LEFT, TODO}, {KEY_RIGHT, TODO},*/ {'\n', new_line},
 		{ERR, NULL},
 	};
@@ -42,24 +41,19 @@ int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
 	echo();
 	while (TRUE)
 	{
-		ch = mvwgetch(wins[0], getcury(wins[w]), getcurx(wins[w]));
+		ch = wgetch(wins[w]);
 
 		for (i = 0; map[i].key != ERR; i++)
 		{
 			if (ch == map[i].key)
 			{
 				map[i].func(wins, w, pans, p, buffer);
-				free(ch_dup);
 				return (length);
 			}
-
-			memset(ch_dup, 0, 2);
-			ch_dup[0] = (char)ch;
-			buffer[j++] = ch_dup[0];
 		}
+		strcat(buffer, (char *)&ch);
 		length++;
 	}
-	free(ch_dup);
 	return (length);
 }
 /**

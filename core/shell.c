@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "shell.h"
 #include "stogram.h"
@@ -12,7 +13,7 @@
 
 void prompt(WINDOW **wins, unsigned int w)
 {
-	mvwprintw(wins[w], getcury(wins[w]) + 1, 0, "::: ");
+	wprintw(wins[w], "::: ");
 
 	update_panels();
 	doupdate();
@@ -30,20 +31,26 @@ void prompt(WINDOW **wins, unsigned int w)
 
 int shell(WINDOW **wins, PANEL **pans)
 {
-	int flag;
+	int flag, y;
 	char *buffer;
 
 	while (TRUE)
 	{
-		prompt(wins, 0);
+		prompt(wins, 0); //prompt prints the $ sign
 
 		buffer = malloc(sizeof(char) * BUFFER_SIZE);
-
+		memset(buffer,0, sizeof(char) * 1024);
 		flag = _getline(wins, 0, pans, 0, buffer);
 		if (flag == -1)
 			return (1);
-		//mvwprintw(wins[0], getcury(wins[0]) + 1, 0, "%s", buffer);
-		prompt(wins, 0);
+
+		y = getcury(wins[0]);
+		if (y == getmaxy(wins[0]) - 1)
+		{
+			scroll(wins[0]);
+			mvwprintw(wins[0], y, 0, "%s\n", buffer);
+		}
+		mvwprintw(wins[0], y + 1, 0, "%s\n", buffer);
 		update_panels();
 		doupdate();
 	}

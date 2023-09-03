@@ -21,6 +21,9 @@ WINDOW *init_window(int height, int width, int y, int x)
 
 	win = newwin(height, width, y, x);
 	scrollok(win, TRUE);  /* enable scrolling */
+	cbreak();
+	keypad(win, TRUE);
+	refresh();
 
 	return (win);
 }
