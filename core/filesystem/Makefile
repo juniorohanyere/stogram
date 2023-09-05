@@ -8,13 +8,19 @@ CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
 	 -std=gnu2x
 
 # object files
-OBJS = objs.o
+OBJS = executables.o syscmd.o syspath.o
 
 TARGET = ../core/stogram
 
 all: $(OBJS)
 
-objs.o: objs.c objs.h
+executables.o: executables.c executables.h syspath.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+syscmd.o: syscmd.c syscmd.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+syspath.o: syspath.c syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all mem-check run

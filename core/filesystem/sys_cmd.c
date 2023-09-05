@@ -15,5 +15,6 @@
 
 int list_dir(char *command, char *args[])
 {
+	DIR *dir;
 	return (0);
 }
