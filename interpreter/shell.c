@@ -50,7 +50,8 @@ int shell(WINDOW **wins, PANEL **pans)
 			scroll(wins[0]);
 			mvwprintw(wins[0], y, 0, "%s\n", buffer);
 		}
-		mvwprintw(wins[0], y + 1, 0, "%s\n", buffer);
+		setenv("DATA_SHARE", buffer, 1);
+		mvwprintw(wins[0], y + 1, 0, "%s\n", getenv("DATA_SHARE"));
 		update_panels();
 		doupdate();
 	}
