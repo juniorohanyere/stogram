@@ -45,3 +45,22 @@ size_t a_panlen(PANEL **pans)
 	return (i);
 }
 
+/**
+ * a_strlen - calculates the length of an array of char pointers
+ *
+ * @str: array of char pointers
+ *
+ * Return: return the calculated length
+*/
+
+size_t a_strlen(char **str)
+{
+	int i;
+
+	if (str == NULL)
+		return 	(0);
+	for (i = 0; str[i] != NULL; i++)
+		;
+
+	return (i);
+}
