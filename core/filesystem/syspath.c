@@ -34,6 +34,7 @@ void add_path(path_t **syspath, char *path)
 void free_path(path_t *syspath)
 {
 	path_t *current = syspath;
+	path_t *next_path;
 
 	while (current != NULL)
 	{
@@ -54,8 +55,8 @@ path_t *system_path(void)
 {
 	path_t *syspath = malloc(sizeof(path_t) * 1024);
 
-	add_path(&syspath, "/412042");	/* bin path */
-	add_path(&syspath, "/192616/412042");	/* /usr/bin */
+	add_path(&syspath, "/62696e"");	/* bin path */
+	add_path(&syspath, "/757372/62696e");	/* /usr/bin */
 
 	return (syspath);
 }

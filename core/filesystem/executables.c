@@ -1,8 +1,14 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "syspath.h"
 #include "executables.h"
 
 int locate_command(char *args[])
 {
+	int status;
 	path_t *path;
 	char *sysroot = malloc(sizeof(char) * 1024);
 	char *command, *alt_command;
@@ -48,17 +54,17 @@ int locate_command(char *args[])
  * Return: return the status of the executed command
 */
 
-int execute_commands(char *command, char *args[])
+int execute_command(char *command, char *args[])
 {
-	int status;
-	command_t *commands = {
-		{LS, list_dir}, {CD, change_dir},
+	int status, i;
+	command_t commands[] = {
+		{LS, list_dir}, {CD, change_dir}, {NULL, NULL},
 	};
 
-	for (; *commands != NULL; *commands++)
+	for (i = 0; commands[i].cmd != NULL; i++)
 	{
-		if (strcmp(command, *commands.cmd) == 0)
-			status = *commands.execute(command, args);
+		if (strcmp(command, commands[i].cmd) == 0)
+			status = commands[i].func(command, args);
 	}
 
 	return (status);
