@@ -8,19 +8,19 @@ CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
 	 -std=gnu2x
 
 # object files
-OBJS = executables.o listdir.o syscmd.o syspath.o
+OBJS = executables.o listdir.o syspath.o
 
 TARGET = ../core/stogram
 
 all: $(OBJS)
 
+changedir.o: changedir.c changedir.h syspath.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
 executables.o: executables.c executables.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 listdir.o: listdir.c listdir.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-syscmd.o: syscmd.c syscmd.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 syspath.o: syspath.c syspath.h
