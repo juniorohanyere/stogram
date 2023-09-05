@@ -20,13 +20,13 @@
  *	   return 1 on failure
 */
 
-int list_dir(WINDOW *win, char *command, char *args[])
+int list_dir(WINDOW *win, char __attribute__((unused))*command, char *args[])
 {
 	DIR *dir;
 	dirent_t *rdir;
 
 	if (args[1] == NULL)
-		dir = opendir(".");
+		dir = opendir(getenv("_PWD"));
 	else if (args[1] != NULL && args[2] == NULL)
 		dir = opendir(args[1]);
 	else

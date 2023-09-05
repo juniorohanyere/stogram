@@ -1,6 +1,4 @@
 #include <string.h>
-#include <panel.h>
-#include <ncurses.h>
 #include <stdlib.h>
 
 #include "window.h"
@@ -8,6 +6,7 @@
 #include "logo.h"
 #include "exit.h"
 #include "shell.h"
+#include "syspath.h"
 
 /**
  * main - entry point for stogram
@@ -33,8 +32,8 @@ int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 int stogram(void)
 {
 	int height, width;
-	WINDOW **windows = malloc(sizeof(WINDOW *) * 1024);
-	PANEL **panels = malloc(sizeof(PANEL *) * 1024);
+	WINDOW **windows = calloc(sizeof(WINDOW *), 1024);
+	PANEL **panels = calloc(sizeof(PANEL *), 1024);
 
 	/* initialize ncurses */
 	initscr();
@@ -57,12 +56,31 @@ int stogram(void)
 	update_panels();
 	doupdate();
 
-	shell(windows, panels);
+	commandline(windows, panels);
+
+	/* clean up */
+	clean_up(windows, panels);
+	free(panels);
+	free(windows);
+
+	return (0);
+}
+
+void commandline(WINDOW **wins, PANEL **pans)
+{
+	char *home = getenv("HOME");
+
+	/* set the cwd to home and keep record of it */
+	strcat(home, "/");
+	strcat(home, SYSROOT);
+	strcat(home, "/");
+	strcat(home, HOME);
+	setenv("_PWD", home, 1);
+
+	shell(wins, pans);
 	update_panels();
 	doupdate();
 	/* wait for user input */
-	/* clean up */
-	clean_up(windows, panels);
 
-	return (0);
+	free(home);
 }

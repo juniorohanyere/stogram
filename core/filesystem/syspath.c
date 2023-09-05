@@ -15,7 +15,7 @@
 
 void add_path(path_t **syspath, char *path)
 {
-	path_t *tmp;
+	path_t *tmp = NULL;
 
 	tmp->path = strdup(path);
 	tmp->next = *syspath;
@@ -55,7 +55,7 @@ path_t *system_path(void)
 {
 	path_t *syspath = malloc(sizeof(path_t) * 1024);
 
-	add_path(&syspath, "/62696e"");	/* bin path */
+	add_path(&syspath, "/62696e");	/* bin path */
 	add_path(&syspath, "/757372/62696e");	/* /usr/bin */
 
 	return (syspath);

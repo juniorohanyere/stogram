@@ -42,18 +42,21 @@ int shell(WINDOW **wins, PANEL **pans)
 		memset(buffer,0, sizeof(char) * 1024);
 		flag = _getline(wins, 0, pans, 0, buffer);
 		if (flag == -1)
+		{
+			free(buffer);
 			return (1);
+		}
 
 		y = getcury(wins[0]);
 		if (y == getmaxy(wins[0]) - 1)
 		{
 			scroll(wins[0]);
-			mvwprintw(wins[0], y, 0, "%s\n", buffer);
+			y = y - 1;
 		}
-		setenv("DATA_SHARE", buffer, 1);
-		mvwprintw(wins[0], y + 1, 0, "%s\n", getenv("DATA_SHARE"));
+		mvwprintw(wins[0], y + 1, 0, "%s\n", buffer);
 		update_panels();
 		doupdate();
+		free(buffer);
 	}
 	return (0);
 }

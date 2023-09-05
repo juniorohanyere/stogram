@@ -2,6 +2,7 @@
 #define SYSPATH_H
 
 #define SYSROOT ".stogram/2f"
+#define HOME "686f6d65"
 
 /**
  * struct path_s - a structure to store system paths

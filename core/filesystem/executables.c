@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "listdir.h"
+#include "changedir.h"
 #include "syspath.h"
 #include "executables.h"
 
 int locate_command(WINDOW __attribute__((unused))*win, char *args[])
 {
-	int status;
+	int status = 0;
 	path_t *path;
 	char *sysroot = malloc(sizeof(char) * 1024);
 	char *command, *alt_command;
@@ -45,6 +47,7 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[])
 			return (status);
 		}
 	}
+	return (status);
 }
 /**
  * execute_commands - handles the execution of valid commands
