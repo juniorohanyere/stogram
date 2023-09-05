@@ -6,7 +6,7 @@
 #include "syspath.h"
 #include "executables.h"
 
-int locate_command(char *args[])
+int locate_command(WINDOW __attribute__((unused))*win, char *args[])
 {
 	int status;
 	path_t *path;
@@ -54,7 +54,7 @@ int locate_command(char *args[])
  * Return: return the status of the executed command
 */
 
-int execute_command(char *command, char *args[])
+int execute_command(WINDOW *win, char *command, char *args[])
 {
 	int status, i;
 	command_t commands[] = {
@@ -64,7 +64,7 @@ int execute_command(char *command, char *args[])
 	for (i = 0; commands[i].cmd != NULL; i++)
 	{
 		if (strcmp(command, commands[i].cmd) == 0)
-			status = commands[i].func(command, args);
+			status = commands[i].func(win, command, args);
 	}
 
 	return (status);

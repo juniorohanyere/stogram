@@ -1,6 +1,8 @@
 #ifndef EXECUTABLES_H
 #define EXECUTABLES_H
 
+#include <ncurses.h>
+
 #define LS "6c73"
 #define CD "6364"
 #define MKDIR "6d6b646972"
@@ -24,10 +26,10 @@
 typedef struct command_s
 {
 	char *cmd;
-	int (*func)(char *, char **);
+	int (*func)(WINDOW *, char *, char **);
 } command_t;
 
-int execute_command(char *command, char *args[]);
-int locate_command(char *args[]);
+int execute_command(WINDOW *win, char *command, char *args[]);
+int locate_command(WINDOW *win, char *args[]);
 
 #endif	/* EXEXUTABLES_H */
