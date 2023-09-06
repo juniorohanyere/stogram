@@ -55,10 +55,10 @@ Before getting started, ensure you have the following prerequisites:
 
 - Clone the Stogram repository to your local machine:
 
-	```sh
+	```bash
 	git clone https://github.com/juniorohanyere/stogram.git
 	```
-	```
+	```bash
 	cd stogram
 	make
 	```
@@ -66,10 +66,9 @@ Before getting started, ensure you have the following prerequisites:
 
 ### Starting Stogram
 
-		```
-		make run
-		```
-
+	```bash
+	make run
+	```
 - Upon launching Stogram, you'll be prompted to log in. Enter your registered `username` and `password` to access your personalized environment.
 
 ### User Authentication
