@@ -29,9 +29,9 @@ Stogram is a versatile and innovative command-line chat application designed to 
 
 - **User Authentication**: Securely log in with your username and password to access your personalized virtual space.
 
-- **Decimal-Based File System**: Navigate and manage directories and files using a decimal-based file system, providing an additional layer of security and organization.
+- **Hexadecimal-Based File System**: Navigate and manage directories and files using a hexadecimal-based file system, providing an additional layer of security and organization.
 
-- **Custom Programs**: Create and execute custom programs using Stogram's built-in decimal-based machine language. Edit and save your programs using a user-friendly text editor. (How do you feel about this feature!)
+- **Custom Programs**: Create and execute custom programs using Stogram's built-in hexadecimal-based machine language. Edit and save your programs using a user-friendly text editor. (How do you feel about this feature?!)
 
 - **Chat and Messaging**: Seamlessly interact with other users within Stogram's chat environment. Send and receive messages encoded in the decimal system, fostering collaboration and communication.
 
@@ -76,8 +76,8 @@ Before getting started, ensure you have the following prerequisites:
 
 ### Virtual File System
 
-- Utilize decimal-based commands to navigate, organize, and manage your chats and messages in form of a virtual file system.
-- While directories and files are stored using decimal encoding, they appear with their regular names within Stogram.
+- Utilize hexadecimal-based commands to navigate, organize, and manage your chats and messages in form of a virtual file system.
+- While directories and files are stored using hexadecimal encoding, they appear with their regular names within Stogram.
 
 - **File System Structure**
 
@@ -124,7 +124,7 @@ Before getting started, ensure you have the following prerequisites:
 
 ### Custom Programs
 
-- Unleash your creativity by creating custom programs using Stogram's decimal-based machine language and some other preinstalled high level languages.
+- Unleash your creativity by creating custom programs using Stogram's hexadecimal-based machine language and some other preinstalled high level languages.
 - Edit and save your programs effortlessly within Stogram's integrated text editor(s).
 - Execute your programs within the virtual environment.
 
@@ -143,7 +143,7 @@ Before getting started, ensure you have the following prerequisites:
 
 # Contributing
 
-- We welcome contributions to Stogram! To contribute, please follow the [Contribution Guidelines](#) for a smooth and collaborative experience.
+- Contributions to Stogram is welcome! To contribute, please follow the [Contribution Guidelines](#) for a smooth and collaborative experience.
 
 # License
 
@@ -151,7 +151,7 @@ Before getting started, ensure you have the following prerequisites:
 
 # Acknowledgments
 
-- I extend my appreciation to the open-source community and all contributors especially thos who have contributed, and those who are still contributing to the possibility of this project. Thank you for your support!
+- Extending an appreciation to the open-source community and all contributors especially thos who have contributed, and those who are still contributing to the possibility of this project. Thank you for your support!
 
 > Experience the future of command-line chat applications with Stogram!
 > You're really gonna enjoy this
