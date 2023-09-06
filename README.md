@@ -64,6 +64,8 @@ Before getting started, ensure you have the following prerequisites:
 	```
 # Usage
 
+### Starting Stogram
+
 	```
 	make run
 	```
@@ -79,7 +81,7 @@ Before getting started, ensure you have the following prerequisites:
 - Utilize decimal-based commands to navigate, organize, and manage your chats and messages in form of a virtual file system.
 - While directories and files are stored using decimal encoding, they appear with their regular names within Stogram.
 
-- File System Structure
+- **File System Structure**
 
 > NOTE: This is just a prototype of how the file system will organised, hence, anything might change
 
