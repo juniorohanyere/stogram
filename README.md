@@ -62,22 +62,24 @@ Before getting started, ensure you have the following prerequisites:
 	cd stogram
 	make
 	```
+# Usage
+
 	```
 	make run
 	```
 
-# Usage
+- Upon launching Stogram, you'll be prompted to log in. Enter your registered `username` and `password` to access your personalized environment.
 
 ### User Authentication
 
-- Upon launching Stogram, you'll be prompted to log in. Enter your registered `username` and `password` to access your personalized environment.
+- 
 
 ### Virtual File System
 
 - Utilize decimal-based commands to navigate, organize, and manage your chats and messages in form of a virtual file system.
 - While directories and files are stored using decimal encoding, they appear with their regular names within Stogram.
 
-#### File System Structure
+- File System Structure
 
 > NOTE: This is just a prototype of how the file system will organised, hence, anything might change
 
@@ -89,40 +91,44 @@ Before getting started, ensure you have the following prerequisites:
 	│   └── ...
 	├── home
 	│   ├── user1			# user 1
-	│   │   ├── chats		# user-specific chats
+	│   │   ├── Chats		# user-specific chats
 	│   │   │   ├── groups		# group chats
 	│   │   │   ├── private		# private one-on-one chats
 	│   │   │   └── ...
-	│   │   ├── communities		# user-specific communities
+	│   │   ├── Communities		# user-specific communities
 	│   │   │   ├── community1
 	│   │   │   ├── community2
 	│   │   │   └── ...
-	│   │   ├── documents
-	│   │   ├── downloads
-	│   │   ├── friends		# user-specific friend list
-	│   │   ├── programs
-	│   │   ├── trends		# user-specific trends
+	│   │   ├── Documents
+	│   │   ├── Downloads
+	│   │   ├── Friends		# user-specific friend list
+	│   │   ├── Notifications	# user-specific notifications
+	│   │   ├── Programs
+	│   │   ├── Trends		# user-specific trends
 	│   │   │   ├── trend1
 	│   │   │   ├── trend2
 	│   │   │   └── ...
+	│   │   ├── Vidoes
 	│   │   └── ...
 	│   ├── user2			# user 2
-	│   │   ├── chats		# user-specific chats
+	│   │   ├── Chats		# user-specific chats
 	│   │   │   ├── groups		# group chats
 	│   │   │   ├── private		# private one-on-one chats
 	│   │   │   └── ...
-	│   │   ├── communities		# user-specific communities
+	│   │   ├── Communities		# user-specific communities
 	│   │   │   ├── community1
 	│   │   │   ├── community2
 	│   │   │   └── ...
-	│   │   ├── documents
-	│   │   ├── downloads
-	│   │   ├── friends		# user-specific friend list
-	│   │   ├── programs
-	│   │   ├── trends		# user-specific trends
+	│   │   ├── Documents
+	│   │   ├── Downloads
+	│   │   ├── Friends		# user-specific friend list
+	│   │   ├── Notifications	# user-specific notifications
+	│   │   ├── Programs
+	│   │   ├── Trends		# user-specific trends
 	│   │   │   ├── trend1
 	│   │   │   ├── trend2
 	│   │   │   └── ...
+	│   │   ├── Vidoes
 	│   │   └── ...
 	│   └── ...
 	├── root			# root user
@@ -161,7 +167,7 @@ Before getting started, ensure you have the following prerequisites:
 
 # License
 
-- This project is licensed under the [GPL-v3 License](#LICENSE.md).
+- This project is licensed under the [GPL-v3 License](LICENSE).
 
 # Acknowledgments
 
