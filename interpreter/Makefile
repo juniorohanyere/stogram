@@ -11,9 +11,12 @@ CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
 LIBS = -lpanel -lncurses
 
 # object files
-OBJS = shell.o
+OBJS = convert_to_hex.o shell.o
 
 all: $(OBJS)
+
+convert_to_hex.o: convert_to_hex.c convert_to_hex.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 shell.o: shell.c ../core/keyboard.h ../core/stogram.h shell.h
 	$(CC) $(CFLAGS) -c $< -o $@
