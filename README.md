@@ -83,7 +83,6 @@ Before getting started, ensure you have the following prerequisites:
 
 > NOTE: This is just a prototype of how the file system will organised, hence, anything might change
 
-	```
 	│
 	├── bin				# default/global system programs
 	│   └── ...
@@ -122,7 +121,6 @@ Before getting started, ensure you have the following prerequisites:
 	├── var				# variable data
 	│   └── logs			# log files
 	└── ...
-	```
 
 ### Custom Programs
 
