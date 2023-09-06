@@ -113,24 +113,6 @@ Before getting started, ensure you have the following prerequisites:
 	│   │   ├── Vidoes
 	│   │   └── ...
 	│   ├── user2			# user 2
-	│   │   ├── Chats		# user-specific chats
-	│   │   │   ├── groups		# group chats
-	│   │   │   ├── private		# private one-on-one chats
-	│   │   │   └── ...
-	│   │   ├── Communities		# user-specific communities
-	│   │   │   ├── community1
-	│   │   │   ├── community2
-	│   │   │   └── ...
-	│   │   ├── Documents
-	│   │   ├── Downloads
-	│   │   ├── Friends		# user-specific friend list
-	│   │   ├── Notifications	# user-specific notifications
-	│   │   ├── Programs
-	│   │   ├── Trends		# user-specific trends
-	│   │   │   ├── trend1
-	│   │   │   ├── trend2
-	│   │   │   └── ...
-	│   │   ├── Vidoes
 	│   │   └── ...
 	│   └── ...
 	├── root			# root user
