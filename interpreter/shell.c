@@ -4,6 +4,7 @@
 #include "shell.h"
 #include "stogram.h"
 #include "keyboard.h"
+#include "convert_to_hex.h"
 
 /**
  * prompt - displays a prompt to enter commands
@@ -32,7 +33,7 @@ void prompt(WINDOW **wins, unsigned int w)
 int shell(WINDOW **wins, PANEL **pans)
 {
 	int flag, y;
-	char *buffer;
+	char *buffer, *hex_string;
 
 	while (TRUE)
 	{
@@ -40,6 +41,7 @@ int shell(WINDOW **wins, PANEL **pans)
 
 		buffer = malloc(sizeof(char) * BUFFER_SIZE);
 		memset(buffer,0, sizeof(char) * 1024);
+
 		flag = _getline(wins, 0, pans, 0, buffer);
 		if (flag == -1)
 		{
@@ -53,9 +55,19 @@ int shell(WINDOW **wins, PANEL **pans)
 			scroll(wins[0]);
 			y = y - 1;
 		}
-		mvwprintw(wins[0], y + 1, 0, "%s\n", buffer);
+		/**
+		 * if it works, don't touch it. That rule thus apply here this
+		 * approach seem to be the only way out not to keep tracking
+		 * the current height position for the automatic scrolling in
+		 * every function, wprintw or printw can be used next time
+		*/
+		mvwprintw(wins[0], y + 1, 0, "%s", "\0");
+
+		hex_string = convert_to_hex(buffer);
+		wprintw(wins[0], "%s\n", hex_string);
 		update_panels();
 		doupdate();
+		free(hex_string);
 		free(buffer);
 	}
 	return (0);
