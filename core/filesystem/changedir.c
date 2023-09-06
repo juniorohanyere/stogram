@@ -18,7 +18,8 @@
  *	   return 1 on failure
 */
 
-int change_dir(WINDOW *win, char *command, char **args)
+int change_dir(WINDOW __attribute__((unused))*win,
+	char __attribute__((unused))*command, char **args)
 {
 	if (a_strlen(args) == 2)
 	{
