@@ -4,17 +4,17 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
+CFLAGS = -I.. -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
 	 -std=gnu2x
 
 # object files
-OBJS = executables.o listdir.o syspath.o
+OBJS = changedir.o executables.o listdir.o syspath.o
 
 TARGET = ../core/stogram
 
 all: $(OBJS)
 
-changedir.o: changedir.c changedir.h syspath.h
+changedir.o: changedir.c ../array.h changedir.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 executables.o: executables.c executables.h syspath.h
