@@ -17,6 +17,7 @@ $(TARGET): subsystem
 
 subsystem:
 	-$(MAKE) -C core
+#	-$(MAKE) -C core/filesystem
 	-$(MAKE) -C interpreter
 
 .PHONY: clean clean-all mem-check run
@@ -29,9 +30,11 @@ run:
 
 clean:
 	-$(MAKE) -C core clean
+	-$(MAKE) -C core/filesystem clean
 	-$(MAKE) -C interpreter clean
 
 clean-all:
 	-$(MAKE) -C core clean-all
+	-$(MAKE) -C core/filesystem clean-all
 	-$(MAKE) -C interpreter clean-all
 	@-rm $(TARGET)
