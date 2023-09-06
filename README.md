@@ -66,9 +66,9 @@ Before getting started, ensure you have the following prerequisites:
 
 ### Starting Stogram
 
-	```
-	make run
-	```
+		```
+		make run
+		```
 
 - Upon launching Stogram, you'll be prompted to log in. Enter your registered `username` and `password` to access your personalized environment.
 
