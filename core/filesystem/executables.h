@@ -30,6 +30,6 @@ typedef struct command_s
 } command_t;
 
 int execute_command(WINDOW *win, char *command, char *args[]);
-int locate_command(WINDOW *win, char *args[]);
+int locate_command(WINDOW *win, char *args[], char *home);
 
 #endif	/* EXEXUTABLES_H */
