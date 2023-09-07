@@ -6,7 +6,7 @@ CC = gcc
 LIBS = -lpanel -lncurses
 
 # object files
-OBJS = core/*.o interpreter/*.o
+OBJS = core/*.o core/filesystem/*.o interpreter/*.o
 
 TARGET = core/stogram
 
@@ -17,7 +17,7 @@ $(TARGET): subsystem
 
 subsystem:
 	-$(MAKE) -C core
-#	-$(MAKE) -C core/filesystem
+	-$(MAKE) -C core/filesystem
 	-$(MAKE) -C interpreter
 
 .PHONY: clean clean-all mem-check run
