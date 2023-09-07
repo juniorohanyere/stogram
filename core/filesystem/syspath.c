@@ -55,8 +55,8 @@ path_t *system_path(void)
 {
 	path_t *syspath = malloc(sizeof(path_t) * 1024);
 
-	add_path(&syspath, "/62696e");	/* bin path */
-	add_path(&syspath, "/757372/62696e");	/* /usr/bin */
+	add_path(&syspath, BIN);	/* bin path */
+	add_path(&syspath, USR_BIN);	/* /usr/bin */
 
 	return (syspath);
 }
