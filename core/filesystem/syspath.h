@@ -22,6 +22,5 @@ typedef struct path_s
 void add_path(path_t **syspath, char *path);
 void free_path(path_t *syspath);
 path_t *system_path(void);
-void print_path(path_t *head);
 
 #endif	/* SYSPATH_H */

@@ -71,8 +71,4 @@ void commandline(WINDOW **wins, PANEL **pans)
 	shell(wins, pans);
 	update_panels();
 	doupdate();
-	/* wait for user input */
-
-	free(pans);
-	free(wins);
 }

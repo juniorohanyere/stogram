@@ -5,7 +5,6 @@
 
 #include "listdir.h"
 #include "changedir.h"
-#include "syspath.h"
 #include "executables.h"
 
 int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attribute__((unused))*home)
@@ -14,7 +13,7 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attr
 	path_t *path;
 	char *sysroot = calloc(sizeof(char), 1024);
 	char *command = malloc(sizeof(char) * 1024);
-	char *alt_command;
+	char __attribute__((unused))*alt_command;
 
 	path = system_path();
 
@@ -36,33 +35,44 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attr
 	}
 
 	wprintw(win, "%s\n", command);
-	while (path != NULL)
-	{
-		alt_command = calloc(sizeof(char), 1024);
-		strncpy(alt_command, sysroot, strlen(sysroot) - 1);
-		strcat(alt_command, path->path);	/* ~/.stogram/46/path */
-		strcat(alt_command, "/");	/* ~/.stogram/46/path/ */
-		strcat(alt_command, args[0]);	/* ~/.stogram/46/path/executable */
+	refresh();
 
-		if (access(command, F_OK) == 0)
-		{
-			/* read content of the command */
-			/* pass the content as an argument to an execution function */
-			/* execute_command(@content, args[]) */
+	locate_command2(win, path, args, home);
 
-			/*return (status);*/
-		}
-		wprintw(win, "%s\n", alt_command);
-		refresh();
-		path = path->next;
-		memset(alt_command, 0, 1024);
-		free(alt_command);
-	}
 	free(sysroot);
 	free(command);
 	free_path(path);
 	return (status);
 }
+
+
+int locate_command2(WINDOW *win, path_t *path, char **args, char *home)
+{
+	path_t *syspath = path;
+	char *sysroot = calloc(sizeof(char), 1024);
+	char *command = malloc(sizeof(char) * 1024);
+
+	strcat(sysroot, home);
+	strcat(sysroot, "/");
+	strcat(sysroot, SYSROOT);
+	strcat(sysroot, "/");
+
+	while (syspath != NULL)
+	{
+		memset(command, 0, 1024);
+		strcpy(command, sysroot);
+		strcat(command, syspath->path);
+		strcat(command, "/");
+		strcat(command, args[0]);
+
+		wprintw(win, "path: %s\n", command);
+		syspath = syspath->next;
+	}
+	free(command);
+	free(sysroot);
+	return (0);
+}
+
 /**
  * execute_commands - handles the execution of valid commands
  *

@@ -5,6 +5,18 @@
 
 #include "syspath.h"
 
+path_t *new_path(const char *path)
+{
+	path_t *new = (path_t *)malloc(sizeof(path_t));
+
+	new->next = NULL;
+
+	new->path = (char *)malloc((strlen(path) + 1) * sizeof(char));
+	strcpy(new->path, path);
+
+	return (new);
+}
+
 /**
  * add_path - adds a system path to the list
  *
@@ -16,9 +28,8 @@
 
 void add_path(path_t **syspath, char *path)
 {
-	path_t *tmp = calloc(sizeof(path_t), 1);
+	path_t *tmp = new_path(path);
 
-	tmp->path = path;
 	tmp->next = *syspath;
 
 	*syspath = tmp;
@@ -60,15 +71,4 @@ path_t *system_path(void)
 	add_path(&syspath, USR_BIN);	/* /usr/bin */
 
 	return (syspath);
-}
-
-void print_path(path_t *head)
-{
-	path_t *current = head;
-
-	while (current != NULL)
-	{
-		printw("path: %s\n", current->path);
-		current = current->next;
-	}
 }
