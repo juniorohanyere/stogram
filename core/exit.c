@@ -21,6 +21,8 @@ int exit_st(WINDOW **wins, unsigned int __attribute__((unused))w, PANEL **pans,
 {
 	clean_up(wins, pans);
 	free(buffer);
+	free(pans);
+	free(wins);
 	exit(EXIT_SUCCESS);
 }
 
