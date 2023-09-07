@@ -35,22 +35,20 @@ void prompt(WINDOW **wins, unsigned int w)
 int shell(WINDOW **wins, PANEL **pans)
 {
 	int flag, y;
-	char *buffer, *hex_string;
+	char *buffer, *hex_string, *home = getenv("HOME");
 	char **args;
-
-	args = malloc(sizeof(char *) * 1024);
 
 	while (TRUE)
 	{
 		prompt(wins, 0); //prompt prints the $ sign
 
-		buffer = malloc(sizeof(char) * BUFFER_SIZE);
-		memset(buffer,0, sizeof(char) * 1024);
+		buffer = calloc(sizeof(char), BUFFER_SIZE);
 
 		flag = _getline(wins, 0, pans, 0, buffer);
 		if (flag == -1)
 		{
 			free(buffer);
+			free(args);
 			return (1);
 		}
 
@@ -72,13 +70,13 @@ int shell(WINDOW **wins, PANEL **pans)
 		args = parse(wins, pans, hex_string, " ");
 		if (args != NULL)
 		{
-			locate_command(wins[0], args);
-			wprintw(wins[0], "%s\n", args[0]);
+			locate_command(wins[0], args, home);
 		}
 		update_panels();
 		doupdate();
 		free(hex_string);
 		free(buffer);
+		free(args);
 	}
 	return (0);
 }

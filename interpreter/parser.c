@@ -19,15 +19,17 @@
 char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 {
 	int i, buffer_size = BUFFER_SIZE;
-	char *token = NULL;
-	char **tokens = NULL;
+	char *token;
+	char **tokens;
 
-	tokens = malloc(sizeof(char *) * buffer_size);
+	tokens = calloc(sizeof(char *), buffer_size);
 	if (tokens == NULL)
 	{
 		dprintf(STDERR_FILENO,
 			"Insufficient memory: Memory allocation failed\n");
 		clean_up(wins, pans);
+		free(pans);
+		free(wins);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(buffer, delimiter);
@@ -52,6 +54,8 @@ char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 				free(token);
 				free(tokens);
 				clean_up(wins, pans);
+				free(pans);
+				free(wins);
 				exit(EXIT_FAILURE);
 			}
 		}

@@ -68,19 +68,11 @@ int stogram(void)
 
 void commandline(WINDOW **wins, PANEL **pans)
 {
-	char *home = getenv("HOME");
-
-	/* set the cwd to home and keep record of it */
-	strcat(home, "/");
-	strcat(home, SYSROOT);
-	strcat(home, "/");
-	strcat(home, HOME);
-	setenv("_PWD", home, 1);
-
 	shell(wins, pans);
 	update_panels();
 	doupdate();
 	/* wait for user input */
 
-	free(home);
+	free(pans);
+	free(wins);
 }
