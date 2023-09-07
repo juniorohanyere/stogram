@@ -5,6 +5,8 @@
 #include "stogram.h"
 #include "keyboard.h"
 #include "convert_to_hex.h"
+#include "executables.h"
+#include "parser.h"
 
 /**
  * prompt - displays a prompt to enter commands
@@ -34,6 +36,9 @@ int shell(WINDOW **wins, PANEL **pans)
 {
 	int flag, y;
 	char *buffer, *hex_string;
+	char **args;
+
+	args = malloc(sizeof(char *) * 1024);
 
 	while (TRUE)
 	{
@@ -64,7 +69,12 @@ int shell(WINDOW **wins, PANEL **pans)
 		mvwprintw(wins[0], y + 1, 0, "%s", "\0");
 
 		hex_string = convert_to_hex(buffer);
-		wprintw(wins[0], "%s\n", hex_string);
+		args = parse(wins, pans, hex_string, " ");
+		if (args != NULL)
+		{
+			locate_command(wins[0], args);
+			wprintw(wins[0], "%s\n", args[0]);
+		}
 		update_panels();
 		doupdate();
 		free(hex_string);
