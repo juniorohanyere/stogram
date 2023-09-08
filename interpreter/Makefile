@@ -15,14 +15,15 @@ OBJS = convert_to_hex.o parser.o shell.o
 
 all: $(OBJS)
 
-convert_to_hex.o: convert_to_hex.c convert_to_hex.h
+convert_to_hex.o: convert_to_hex.c ../core/error.h ../core/exit.h \
+		  ../core/stogram.h convert_to_hex.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-parser.o: parser.c ../core/exit.h ../core/stogram.h parser.h
+parser.o: parser.c ../core/exit.h ../core/exit.h ../core/stogram.h parser.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-shell.o: shell.c ../core/filesystem/executables.h ../core/keyboard.h \
-	 ../core/stogram.h parser.h shell.h
+shell.o: shell.c ../core/exit.h ../core/filesystem/executables.h \
+	 ../core/keyboard.h ../core/stogram.h parser.h shell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all mem-check run

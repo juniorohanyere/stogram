@@ -10,7 +10,7 @@ CFLAGS = -I../interpreter -Ifilesystem -pedantic -std=gnu2x -Wall \
 LIBS = -lpanel -lncurses
 
 # object files
-OBJS = array.o exit.o keyboard.o logo.o stogram.o window.o
+OBJS = array.o error.o exit.o keyboard.o logo.o stogram.o window.o
 
 # the target file to build
 TARGET = ./stogram
@@ -18,6 +18,9 @@ TARGET = ./stogram
 all: $(OBJS)
 
 array.o: array.c array.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+error.o: error.c error.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 exit.o: exit.c exit.h

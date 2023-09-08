@@ -6,10 +6,13 @@
 #include "parser.h"
 #include "stogram.h"
 #include "exit.h"
+#include "error.h"
 
 /**
  * parse - parses a buffer into tokens based on a specific delimiter
  *
+ * @wins: array of WINDOW* objects
+ * @pans: array of PANEL* objects
  * @buffer: the buffer to be parsed
  * @delimiter: the delimiter
  *
@@ -25,18 +28,14 @@ char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 	tokens = calloc(sizeof(char *), buffer_size);
 	if (tokens == NULL)
 	{
-		dprintf(STDERR_FILENO,
-			"Insufficient memory: Memory allocation failed\n");
-		clean_up(wins, pans);
-		free(pans);
-		free(wins);
+		malloc_error();
+		clean_up(wins, pans), free(pans), free(wins);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(buffer, delimiter);
 	if (token == NULL)
 	{
-		free(token);
-		free(tokens);
+		free(token), free(tokens);
 		return (NULL);
 	}
 	for (i = 0; token != NULL; i++)
@@ -48,23 +47,15 @@ char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 				buffer_size  * sizeof(char *));
 			if (!tokens)
 			{
-				dprintf(STDERR_FILENO, "Insufficient memory:");
-				dprintf(STDERR_FILENO,
-					" Memory allocation failed\n");
-				free(token);
-				free(tokens);
+				malloc_error();
+				free(token), free(tokens);
 				clean_up(wins, pans);
-				free(pans);
-				free(wins);
-				exit(EXIT_FAILURE);
+				free(pans), free(wins), exit(EXIT_FAILURE);
 			}
 		}
-		tokens[i] = token;
-		token = strtok(NULL, "\n");
+		tokens[i] = token, token = strtok(NULL, "\n");
 	}
-	/* null termination */
 	tokens[i] = NULL;
 	free(token);
-
 	return (tokens);
 }

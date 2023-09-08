@@ -1,6 +1,9 @@
 #ifndef CONVERT_TO_HEX_H
 #define CONVERT_TO_HEX_H
 
-char *convert_to_hex(const char *data);
+#include <ncurses.h>
+#include <panel.h>
+
+char *convert_to_hex(WINDOW **wins, PANEL **pans, const char *data);
 
 #endif	/* CONVERT_TO_HEX_H */

@@ -13,7 +13,7 @@
  * @p: indes of panel to use
  * @buffer: the variable to store keyboard input
  *
- * Return: always exit successfully
+ * Return: always return 0 (always exit successfully)
 */
 
 int exit_st(WINDOW **wins, unsigned int __attribute__((unused))w, PANEL **pans,
@@ -29,8 +29,11 @@ int exit_st(WINDOW **wins, unsigned int __attribute__((unused))w, PANEL **pans,
 /**
  * clean_up - makes a final memory allocation clean up
  *
+ * @wins: array of window objects
+ * @pans: array of panel objects
+ *
  * Description: note that this function does not free all memory. Hence proper
- *		handling of other frees not defined her is necessary. This
+ *		handling of other frees not defined here is necessary. This
  *		function ends aims at easing the strain of having to free up
  *		some constant or global variables
  *

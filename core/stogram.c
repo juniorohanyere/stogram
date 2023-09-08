@@ -14,26 +14,29 @@
  * @argc: the argument counter
  * @argv: variable containing the list of command line arguments
  *
- * Return: always return 0
+ * Return: return status of the called function
 */
 
 int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 {
-	stogram();
-	return (0);
+	int status;
+
+	status = stogram();
+	return (status);
 }
 
 /**
- * window - handles windowing for the stogram program
+ * stogram - handles windowing and other stuff for the stogram program before
+ *	     transferring control to the main function
  *
- * Return: return nothing
+ * Return: return the status of the called function(s)
 */
 
 int stogram(void)
 {
-	int height, width;
-	WINDOW **windows = calloc(sizeof(WINDOW *), 1024);
-	PANEL **panels = calloc(sizeof(PANEL *), 1024);
+	int height, width, status;
+	WINDOW **windows = calloc(sizeof(WINDOW *), BUFFER_SIZE);
+	PANEL **panels = calloc(sizeof(PANEL *), BUFFER_SIZE);
 
 	/* initialize ncurses */
 	initscr();
@@ -56,19 +59,32 @@ int stogram(void)
 	update_panels();
 	doupdate();
 
-	commandline(windows, panels);
+	status = commandline(windows, panels);
 
 	/* clean up */
 	clean_up(windows, panels);
 	free(panels);
 	free(windows);
 
-	return (0);
+	return (status);
 }
 
-void commandline(WINDOW **wins, PANEL **pans)
+/**
+ * commandline - calls the shell function
+ *
+ * @wins: array of window objects
+ * @pans: array of panel objects
+ *
+ * Return: return the status of the called function(s)
+*/
+
+int commandline(WINDOW **wins, PANEL **pans)
 {
-	shell(wins, pans);
+	int status;
+
+	status = shell(wins, pans);
 	update_panels();
 	doupdate();
+
+	return (status);
 }

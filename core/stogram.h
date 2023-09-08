@@ -7,6 +7,6 @@
 #include <panel.h>
 
 int stogram(void);
-void commandline(WINDOW **wins, PANEL **pans);
+int commandline(WINDOW **wins, PANEL **pans);
 
 #endif	/* STOGRAM_H */

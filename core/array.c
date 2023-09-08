@@ -58,7 +58,7 @@ size_t a_strlen(char **str)
 	int i;
 
 	if (str == NULL)
-		return 	(0);
+		return (0);
 	for (i = 0; str[i] != NULL; i++)
 		;
 
