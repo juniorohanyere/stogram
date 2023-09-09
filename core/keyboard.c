@@ -71,7 +71,7 @@ int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
 */
 
 int new_line(WINDOW __attribute__((unused))**wins,
-	unsigned int __attribute__((unused)) w,
+	unsigned int __attribute__((unused))w,
 	PANEL __attribute__((unused))**pans,
 	unsigned int __attribute__((unused))p,
 	char __attribute__((unused))*buffer)
