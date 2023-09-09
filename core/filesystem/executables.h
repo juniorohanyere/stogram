@@ -28,7 +28,7 @@
 typedef struct command_s
 {
 	char *cmd;
-	int (*func)(WINDOW **, char *, char **);
+	int (*func)(WINDOW *, char *, char **);
 } command_t;
 
 int execute_command(WINDOW *win, char *command, char *args[]);
