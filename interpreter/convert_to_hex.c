@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+<<<<<<< HEAD
 #include "stogram.h"
 #include "error.h"
 #include "exit.h"
@@ -11,6 +12,11 @@
  *
  * @wins: array of window objects
  * @pans: array of panel objects
+=======
+/**
+ * convert_to_hex - converts a string data to hexadecimal
+ *
+>>>>>>> main
  * @data: the string data to convert
  *
  * Return: return a pointer to the hexadecimal value of @data
