@@ -3,6 +3,7 @@
 #include <term.h>
 
 #include "window.h"
+#include "externs.h"
 
 /**
  * init_window - function to initialize ncurses and create a window

@@ -6,7 +6,10 @@
 #include <ncurses.h>
 #include <panel.h>
 
+WINDOW **wins;
+PANEL **pans;
+
 int stogram(void);
-int commandline(WINDOW **wins, PANEL **pans);
+int commandline(void);
 
 #endif	/* STOGRAM_H */

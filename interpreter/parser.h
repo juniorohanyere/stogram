@@ -1,9 +1,8 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <ncurses.h>
-#include <panel.h>
+#define BUFFER_SIZE 1024
 
-char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter);
+char **parse(char *buffer, char *delimiter);
 
 #endif	/* PARSER_H */

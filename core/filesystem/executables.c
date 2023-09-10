@@ -13,7 +13,6 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attr
 	path_t *path;
 	char *sysroot = calloc(sizeof(char), 1024);
 	char *command = malloc(sizeof(char) * 1024);
-	char __attribute__((unused))*alt_command;
 
 	path = system_path();
 

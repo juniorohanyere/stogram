@@ -35,8 +35,8 @@ int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 int stogram(void)
 {
 	int height, width, status;
-	WINDOW **windows = calloc(sizeof(WINDOW *), BUFFER_SIZE);
-	PANEL **panels = calloc(sizeof(PANEL *), BUFFER_SIZE);
+	wins = calloc(sizeof(WINDOW *), 1);
+	pans = calloc(sizeof(PANEL *), 1);
 
 	/* initialize ncurses */
 	initscr();
@@ -48,23 +48,23 @@ int stogram(void)
 	getmaxyx(stdscr, height, width);
 
 	/* create new windows */
-	windows[0] = init_window(height, width, 0, 0);
+	wins[0] = init_window(height, width, 0, 0);
 
 	/* create panel */
-	panels[0] = new_panel(windows[0]);
+	pans[0] = new_panel(wins[0]);
 
 	/* logo_stg(windows[0], 4, 15); */
 
-	wprintw(windows[0], "\n");
+	wprintw(wins[0], "\n");
 	update_panels();
 	doupdate();
 
-	status = commandline(windows, panels);
+	status = commandline();
 
 	/* clean up */
-	clean_up(windows, panels);
-	free(panels);
-	free(windows);
+	clean_up();
+	free(pans);
+	free(wins);
 
 	return (status);
 }
@@ -72,17 +72,14 @@ int stogram(void)
 /**
  * commandline - calls the shell function
  *
- * @wins: array of window objects
- * @pans: array of panel objects
- *
  * Return: return the status of the called function(s)
 */
 
-int commandline(WINDOW **wins, PANEL **pans)
+int commandline(void)
 {
 	int status;
 
-	status = shell(wins, pans);
+	status = shell();
 	update_panels();
 	doupdate();
 

@@ -7,14 +7,12 @@
 #include "array.h"
 #include "keyboard.h"
 #include "keymapper.h"
+#include "externs.h"
 
 /**
  * _getline - gets keyboard input
  *
- * @wins: an array of windows
  * @w: index of window to use
- * @pans: array of panels
- * @p: indes of panel to use
  * @buffer: the variable to store keyboard input
  *
  * Description: @w and @p are integer values beginning from 0. The function is
@@ -25,8 +23,7 @@
  *	   return -1 on failure
 */
 
-int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
-	char *buffer)
+int _getline(WINDOW *win, char *buffer)
 {
 	int ch, i, length = 0;
 	keymap_t map[] = {
@@ -36,19 +33,16 @@ int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
 		/* {KEY_LEFT, TODO}, {KEY_RIGHT, TODO},*/
 	};
 
-	if (a_winlen(wins) <= w || a_panlen(pans) <= p)
-		return (-1);
-
 	echo();
 	while (TRUE)
 	{
-		ch = wgetch(wins[w]);
+		ch = wgetch(win);
 
 		for (i = 0; map[i].key != ERR; i++)
 		{
 			if (ch == map[i].key)
 			{
-				map[i].func(wins, w, pans, p, buffer);
+				map[i].func(buffer);
 				return (length);
 			}
 		}
@@ -61,20 +55,12 @@ int _getline(WINDOW **wins, unsigned int w, PANEL **pans, unsigned int p,
 /**
  * new_line - handles the enter key(new line) press
  *
- * @wins: an array of windows
- * @w: index of window to use
- * @pans: array of panels
- * @p: indes of panel to use
  * @buffer: the variable to store keyboard input
  *
  * Return: always return 0
 */
 
-int new_line(WINDOW __attribute__((unused))**wins,
-	unsigned int __attribute__((unused))w,
-	PANEL __attribute__((unused))**pans,
-	unsigned int __attribute__((unused))p,
-	char __attribute__((unused))*buffer)
+int new_line(char __attribute__((unused))*buffer)
 {
 	return (0);
 }

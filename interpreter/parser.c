@@ -4,9 +4,9 @@
 #include <unistd.h>
 
 #include "parser.h"
-#include "stogram.h"
 #include "exit.h"
 #include "error.h"
+#include "externs.h"
 
 /**
  * parse - parses a buffer into tokens based on a specific delimiter
@@ -19,7 +19,7 @@
  * Return: return an array of the parsed buffer
 */
 
-char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
+char **parse(char *buffer, char *delimiter)
 {
 	int i, buffer_size = BUFFER_SIZE;
 	char *token;
@@ -29,7 +29,7 @@ char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 	if (tokens == NULL)
 	{
 		malloc_error();
-		clean_up(wins, pans), free(pans), free(wins);
+		clean_up(), free(pans), free(wins);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(buffer, delimiter);
@@ -49,7 +49,7 @@ char **parse(WINDOW **wins, PANEL **pans, char *buffer, char *delimiter)
 			{
 				malloc_error();
 				free(token), free(tokens);
-				clean_up(wins, pans);
+				clean_up();
 				free(pans), free(wins), exit(EXIT_FAILURE);
 			}
 		}

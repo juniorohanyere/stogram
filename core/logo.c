@@ -1,22 +1,22 @@
 #include "logo.h"
+#include "externs.h"
 
 /**
  * logo_stg - the stogram ascii logo
  *
- * @win: the window to display the logo
  * @y: the horizontal position to display the logo on @win
  * @x: the vertical position to display the logo on @win
  *
  * Return: return nothing
 */
 
-void logo_stg(WINDOW *win, int y, int x)
+void logo_stg(int y, int x)
 {
 	/* print the stogram logo in ascii format */
-	mvwprintw(win, y++, x, " SSSSSTTTTTTTTGGGGG");
-	mvwprintw(win, y++, x, "SSS      TT  GG");
-	mvwprintw(win, y++, x, " SSSSS   TT  GG  GGG");
-	mvwprintw(win, y++, x, "    SSS  TT  GG   GG");
-	mvwprintw(win, y++, x, " SSSSS   TT   GGGGG");
-	mvwprintw(win, y++, x, "    MAKE IT HAPPEN");
+	mvwprintw(wins[0], y++, x, " SSSSSTTTTTTTTGGGGG");
+	mvwprintw(wins[0], y++, x, "SSS      TT  GG");
+	mvwprintw(wins[0], y++, x, " SSSSS   TT  GG  GGG");
+	mvwprintw(wins[0], y++, x, "    SSS  TT  GG   GG");
+	mvwprintw(wins[0], y++, x, " SSSSS   TT   GGGGG");
+	mvwprintw(wins[0], y++, x, "    MAKE IT HAPPEN");
 }

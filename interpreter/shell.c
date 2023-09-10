@@ -2,13 +2,13 @@
 #include <string.h>
 
 #include "shell.h"
-#include "stogram.h"
 #include "keyboard.h"
-#include "convert_to_hex.h"
+#include "convert.h"
 #include "executables.h"
 #include "parser.h"
 #include "error.h"
 #include "exit.h"
+#include "externs.h"
 
 /**
  * prompt - displays a prompt to enter commands
@@ -19,9 +19,9 @@
  * Return: return nothing
 */
 
-void prompt(WINDOW **wins, unsigned int w)
+void prompt(WINDOW *win)
 {
-	wprintw(wins[w], "::: ");
+	wprintw(win, "::: ");
 
 	update_panels();
 	doupdate();
@@ -30,13 +30,10 @@ void prompt(WINDOW **wins, unsigned int w)
 /**
  * shell - handles the shell prompts
  *
- * @wins: array conatining window objects
- * @pans: array containing panel objects
- *
  * Return: return status of the called function(s)
 */
 
-int shell(WINDOW **wins, PANEL **pans)
+int shell(void)
 {
 	int flag, y, status;
 	char *buffer, *hex_string, *home = getenv("HOME");
@@ -44,15 +41,15 @@ int shell(WINDOW **wins, PANEL **pans)
 
 	while (TRUE)
 	{
-		prompt(wins, 0); /* prompt prints the ::: sign */
+		prompt(wins[0]); /* prompt prints the ::: sign */
 		buffer = calloc(sizeof(char), BUFFER_SIZE);
 		if (buffer == NULL)
 		{
 			malloc_error();
-			clean_up(wins, pans), free(pans), free(wins);
+			clean_up(), free(pans), free(wins);
 			exit(EXIT_FAILURE);
 		}
-		flag = _getline(wins, 0, pans, 0, buffer);
+		flag = _getline(wins[0], buffer);
 		if (flag == -1)
 		{
 			free(buffer), free(args);
@@ -69,8 +66,8 @@ int shell(WINDOW **wins, PANEL **pans)
 		 * every function, wprintw or printw can be used next time
 		*/
 		mvwprintw(wins[0], y + 1, 0, "%s", "\0");
-		hex_string = convert_to_hex(wins, pans, buffer);
-		args = parse(wins, pans, hex_string, " ");
+		hex_string = convert_to_hex(buffer);
+		args = parse(hex_string, " ");
 		if (args != NULL)
 			status = locate_command(wins[0], args, home);
 		update_panels(), doupdate();

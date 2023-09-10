@@ -2,9 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "stogram.h"
 #include "error.h"
 #include "exit.h"
+#include "convert.h"
+#include "externs.h"
 
 /**
  * convert_to_hex - converts a string data to hexadecimal
@@ -16,7 +17,7 @@
  * Return: return a pointer to the hexadecimal value of @data
 */
 
-char *convert_to_hex(WINDOW **wins, PANEL **pans, const char *data)
+char *convert_to_hex(const char *data)
 {
 	int i, length;
 	char *hex_data, *new_hex;
@@ -25,7 +26,7 @@ char *convert_to_hex(WINDOW **wins, PANEL **pans, const char *data)
 	new_hex = calloc(sizeof(char), BUFFER_SIZE);
 	if (new_hex == NULL)
 	{
-		malloc_error(), clean_up(wins, pans);
+		malloc_error(), clean_up();
 		free(pans), free(wins), exit(EXIT_FAILURE);
 	}
 
@@ -46,7 +47,7 @@ char *convert_to_hex(WINDOW **wins, PANEL **pans, const char *data)
 			{
 				malloc_error();
 				free(new_hex);
-				clean_up(wins, pans);
+				clean_up();
 				free(wins), free(pans);
 				exit(EXIT_FAILURE);
 			}
