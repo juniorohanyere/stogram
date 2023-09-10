@@ -53,9 +53,9 @@ int stogram(void)
 	/* create panel */
 	panels[0] = new_panel(windows[0]);
 
-	logo_stg(windows[0], 4, 15);
+	/* logo_stg(windows[0], 4, 15); */
 
-	mvwprintw(windows[0], getcury(windows[0]), 0, "\n");
+	wprintw(windows[0], "\n");
 	update_panels();
 	doupdate();
 
