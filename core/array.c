@@ -2,16 +2,15 @@
 #include <unistd.h>
 
 #include "array.h"
+#include "externs.h"
 
 /**
  * a_winlen - calculates the length of an array of WINDOW* objects
  *
- * @wins: array of window objects
- *
  * Return: return the length calculated
 */
 
-size_t a_winlen(WINDOW **wins)
+size_t a_winlen(void)
 {
 	int i;
 
@@ -27,12 +26,10 @@ size_t a_winlen(WINDOW **wins)
 /**
  * a_panlen - calculates the length of an array of PANEL* objects
  *
- * @pans: array of panel objects
- *
  * Return: return the length calculated
 */
 
-size_t a_panlen(PANEL **pans)
+size_t a_panlen(void)
 {
 	int i;
 
@@ -58,7 +55,7 @@ size_t a_strlen(char **str)
 	int i;
 
 	if (str == NULL)
-		return 	(0);
+		return (0);
 	for (i = 0; str[i] != NULL; i++)
 		;
 

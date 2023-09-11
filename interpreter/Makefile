@@ -5,20 +5,27 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
-	 -std=gnu2x -I../core
+CFLAGS = -I../core -I../core/filesystem -pedantic -std=gnu2x -Wall \
+	 -Wdeclaration-after-statement -Werror -Wextra
 
 LIBS = -lpanel -lncurses
 
 # object files
-OBJS = convert_to_hex.o shell.o
+OBJS = convert.o parser.o shell.o
 
 all: $(OBJS)
 
-convert_to_hex.o: convert_to_hex.c convert_to_hex.h
+convert.o: convert.c ../core/error.h ../core/exit.h \
+		  ../core/externs.h ../core/stogram.h convert.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-shell.o: shell.c ../core/keyboard.h ../core/stogram.h shell.h
+parser.o: parser.c ../core/exit.h ../core/exit.h ../core/externs.h \
+	  ../core/stogram.h parser.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+shell.o: shell.c ../core/exit.h ../core/externs.h \
+	 ../core/filesystem/executables.h \
+	 ../core/keyboard.h ../core/stogram.h parser.h shell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all mem-check run

@@ -1,9 +1,6 @@
 #ifndef KEYMAPPER_H
 #define KEYMAPPER_H
 
-#include <ncurses.h>
-#include <panel.h>
-
 /**
  * struct keymap - type definition for a key mapper structure
  *
@@ -18,8 +15,7 @@
 typedef struct keymap
 {
 	int key;
-	int (*func)(WINDOW **wins, unsigned int w, PANEL **pans,
-		unsigned int p, char *buffer);
+	int (*func)(char *buffer);
 } keymap_t;
 
 #endif	/* KEYMAPPER_H */

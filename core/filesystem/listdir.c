@@ -37,13 +37,6 @@ int list_dir(WINDOW *win, char __attribute__((unused))*command, char *args[])
 	}
 	if (dir == NULL)
 	{
-		/**
-		 * args is in hexadecimals, convert the index of args needed to
-		 * original string befor printing to stderr
-		*/
-
-		/* convert: receive data from socket */
-
 		dprintf(STDERR_FILENO,
 			"%s: cannot access '%s': No such file or directory\n",
 			args[0], args[1]);

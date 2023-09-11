@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 
+#include "syspath.h"
+
 #define LS "6c73"
 #define CD "6364"
 #define MKDIR "6d6b646972"
@@ -26,10 +28,11 @@
 typedef struct command_s
 {
 	char *cmd;
-	int (*func)(WINDOW **, char *, char **);
+	int (*func)(WINDOW *, char *, char **);
 } command_t;
 
 int execute_command(WINDOW *win, char *command, char *args[]);
-int locate_command(WINDOW *win, char *args[]);
+int locate_command(WINDOW *win, char *args[], char *home);
+int locate_command2(WINDOW *win, path_t *path, char *args[], char *home);
 
 #endif	/* EXEXUTABLES_H */

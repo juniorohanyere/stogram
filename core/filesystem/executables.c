@@ -5,22 +5,23 @@
 
 #include "listdir.h"
 #include "changedir.h"
-#include "syspath.h"
 #include "executables.h"
 
-int locate_command(WINDOW __attribute__((unused))*win, char *args[])
+int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attribute__((unused))*home)
 {
 	int status = 0;
 	path_t *path;
-	char *sysroot = malloc(sizeof(char) * 1024);
-	char *command, *alt_command;
+	char *sysroot = calloc(sizeof(char), 1024);
+	char *command = malloc(sizeof(char) * 1024);
+
 	path = system_path();
 
-	sysroot = getenv("HOME");
+	strcat(sysroot, home);
+	strcat(sysroot, "/");
 	strcat(sysroot, SYSROOT);	/* ~/.stogram/46 */
+	strcat(sysroot, "/");
 
-	command = strdup(sysroot);
-	alt_command = strdup(sysroot);
+	strcpy(command, sysroot);
 	strcat(command, args[0]);	/* ~/.stogram/46/path/to/executable */
 
 	if (access(command, F_OK) == 0)
@@ -29,26 +30,48 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[])
 		/* pass the content as an argument to an execution function */
 		/* execute_command(@content, args[]) */
 
-		return (status);
+		/*return (status);*/
 	}
 
-	while (path != NULL)
-	{
-		strcat(alt_command, path->path);	/* ~/.stogram/46/path */
-		strcat(alt_command, "/");	/* ~/.stogram/46/path/ */
-		strcat(alt_command, args[0]);	/* ~/.stogram/46/path/executable */
+	wprintw(win, "%s\n", command);
+	refresh();
 
-		if (access(command, F_OK) == 0)
-		{
-			/* read content of the command */
-			/* pass the content as an argument to an execution function */
-			/* execute_command(@content, args[]) */
+	locate_command2(win, path, args, home);
 
-			return (status);
-		}
-	}
+	free(sysroot);
+	free(command);
+	free_path(path);
 	return (status);
 }
+
+
+int locate_command2(WINDOW *win, path_t *path, char **args, char *home)
+{
+	path_t *syspath = path;
+	char *sysroot = calloc(sizeof(char), 1024);
+	char *command = malloc(sizeof(char) * 1024);
+
+	strcat(sysroot, home);
+	strcat(sysroot, "/");
+	strcat(sysroot, SYSROOT);
+	strcat(sysroot, "/");
+
+	while (syspath != NULL)
+	{
+		memset(command, 0, 1024);
+		strcpy(command, sysroot);
+		strcat(command, syspath->path);
+		strcat(command, "/");
+		strcat(command, args[0]);
+
+		wprintw(win, "path: %s\n", command);
+		syspath = syspath->next;
+	}
+	free(command);
+	free(sysroot);
+	return (0);
+}
+
 /**
  * execute_commands - handles the execution of valid commands
  *

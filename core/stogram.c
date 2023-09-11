@@ -14,26 +14,29 @@
  * @argc: the argument counter
  * @argv: variable containing the list of command line arguments
  *
- * Return: always return 0
+ * Return: return status of the called function
 */
 
 int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 {
-	stogram();
-	return (0);
+	int status;
+
+	status = stogram();
+	return (status);
 }
 
 /**
- * window - handles windowing for the stogram program
+ * stogram - handles windowing and other stuff for the stogram program before
+ *	     transferring control to the main function
  *
- * Return: return nothing
+ * Return: return the status of the called function(s)
 */
 
 int stogram(void)
 {
-	int height, width;
-	WINDOW **windows = calloc(sizeof(WINDOW *), 1024);
-	PANEL **panels = calloc(sizeof(PANEL *), 1024);
+	int height, width, status;
+	wins = calloc(sizeof(WINDOW *), 1);
+	pans = calloc(sizeof(PANEL *), 1);
 
 	/* initialize ncurses */
 	initscr();
@@ -45,42 +48,40 @@ int stogram(void)
 	getmaxyx(stdscr, height, width);
 
 	/* create new windows */
-	windows[0] = init_window(height, width, 0, 0);
+	wins[0] = init_window(height, width, 0, 0);
 
 	/* create panel */
-	panels[0] = new_panel(windows[0]);
+	pans[0] = new_panel(wins[0]);
 
-	logo_stg(windows[0], 4, 15);
+	/* logo_stg(windows[0], 4, 15); */
 
-	mvwprintw(windows[0], getcury(windows[0]), 0, "\n");
+	wprintw(wins[0], "\n");
 	update_panels();
 	doupdate();
 
-	commandline(windows, panels);
+	status = commandline();
 
 	/* clean up */
-	clean_up(windows, panels);
-	free(panels);
-	free(windows);
+	clean_up();
+	free(pans);
+	free(wins);
 
-	return (0);
+	return (status);
 }
 
-void commandline(WINDOW **wins, PANEL **pans)
+/**
+ * commandline - calls the shell function
+ *
+ * Return: return the status of the called function(s)
+*/
+
+int commandline(void)
 {
-	char *home = getenv("HOME");
+	int status;
 
-	/* set the cwd to home and keep record of it */
-	strcat(home, "/");
-	strcat(home, SYSROOT);
-	strcat(home, "/");
-	strcat(home, HOME);
-	setenv("_PWD", home, 1);
-
-	shell(wins, pans);
+	status = shell();
 	update_panels();
 	doupdate();
-	/* wait for user input */
 
-	free(home);
+	return (status);
 }

@@ -3,24 +3,22 @@
 #include <term.h>
 
 #include "exit.h"
+#include "externs.h"
 
 /**
  * exit_st - exits the stogram application
  *
- * @wins: an array of windows
- * @w: index of window to use
- * @pans: array of panels
- * @p: indes of panel to use
  * @buffer: the variable to store keyboard input
  *
- * Return: always exit successfully
+ * Return: always return 0 (always exit successfully)
 */
 
-int exit_st(WINDOW **wins, unsigned int __attribute__((unused))w, PANEL **pans,
-	unsigned int __attribute__((unused))p, char *buffer)
+int exit_st(char *buffer)
 {
-	clean_up(wins, pans);
+	clean_up();
 	free(buffer);
+	free(pans);
+	free(wins);
 	exit(EXIT_SUCCESS);
 }
 
@@ -28,14 +26,14 @@ int exit_st(WINDOW **wins, unsigned int __attribute__((unused))w, PANEL **pans,
  * clean_up - makes a final memory allocation clean up
  *
  * Description: note that this function does not free all memory. Hence proper
- *		handling of other frees not defined her is necessary. This
+ *		handling of other frees not defined here is necessary. This
  *		function ends aims at easing the strain of having to free up
  *		some constant or global variables
  *
  * Return: return nothing
 */
 
-void clean_up(WINDOW **wins, PANEL **pans)
+void clean_up(void)
 {
 	int i;
 

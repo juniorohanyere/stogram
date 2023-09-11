@@ -1,8 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 #include "syspath.h"
+
+path_t *new_path(const char *path)
+{
+	path_t *new = (path_t *)malloc(sizeof(path_t));
+
+	new->next = NULL;
+
+	new->path = (char *)malloc((strlen(path) + 1) * sizeof(char));
+	strcpy(new->path, path);
+
+	return (new);
+}
 
 /**
  * add_path - adds a system path to the list
@@ -15,9 +28,8 @@
 
 void add_path(path_t **syspath, char *path)
 {
-	path_t *tmp = NULL;
+	path_t *tmp = new_path(path);
 
-	tmp->path = strdup(path);
 	tmp->next = *syspath;
 
 	*syspath = tmp;
@@ -53,10 +65,10 @@ void free_path(path_t *syspath)
 
 path_t *system_path(void)
 {
-	path_t *syspath = malloc(sizeof(path_t) * 1024);
+	path_t *syspath = NULL;
 
-	add_path(&syspath, "/62696e");	/* bin path */
-	add_path(&syspath, "/757372/62696e");	/* /usr/bin */
+	add_path(&syspath, BIN);	/* bin path */
+	add_path(&syspath, USR_BIN);	/* /usr/bin */
 
 	return (syspath);
 }
