@@ -4,5 +4,6 @@
 #define BUFFER_SIZE 1024
 
 char *convert_to_hex(const char *data);
+char *convert_to_string(const char *data);
 
 #endif	/* CONVERT_TO_HEX_H */

@@ -4,7 +4,7 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -I.. -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
+CFLAGS = -I.. -I../../interpreter -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
 	 -std=gnu2x
 
 # object files
@@ -14,13 +14,14 @@ TARGET = ../core/stogram
 
 all: $(OBJS)
 
-changedir.o: changedir.c ../array.h changedir.h syspath.h
+changedir.o: changedir.c ../array.h ../externs.h changedir.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-executables.o: executables.c executables.h syspath.h
+executables.o: executables.c ../externs.h ../../interpreter/convert.h \
+	       executables.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-listdir.o: listdir.c listdir.h
+listdir.o: listdir.c ../externs.h listdir.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 syspath.o: syspath.c syspath.h

@@ -10,8 +10,6 @@
 /**
  * convert_to_hex - converts a string data to hexadecimal
  *
- * @wins: array of window objects
- * @pans: array of panel objects
  * @data: the string data to convert
  *
  * Return: return a pointer to the hexadecimal value of @data
@@ -57,4 +55,48 @@ char *convert_to_hex(const char *data)
 		}
 	}
 	return (new_hex);
+}
+
+/**
+ * convert_to_string - converts an hexadecimal to string
+ *
+ * @data: the haxadecimal data to convert
+ *
+ * Return: return a pointer to the string representation of @data
+*/
+
+char *convert_to_string(const char *data)
+{
+        int i, length;
+        unsigned int b;
+        char *new_string, *string_data;
+
+        length = strlen(data);
+        new_string = calloc(sizeof(char), length + 1);
+        if (new_string == NULL)
+        {
+                malloc_error();
+                free(pans), free(wins), exit(EXIT_FAILURE);
+        }
+
+        for (i = 0; i < length; i += 0)
+        {
+		if (data[i] == '/')
+		{
+			strcat(new_string, "/");
+			i += 1;
+		}
+		else
+		{
+	                string_data = calloc(sizeof(char), 4);
+	                string_data[0] = data[i];
+	                string_data[1] = data[i + 1];
+	                string_data[2] = '\0';
+	                sscanf(string_data, "%02x", &b);
+	                strcat(new_string, (char *)&b);
+	                free(string_data);
+			i += 2;
+		}
+        }
+        return (new_string);
 }

@@ -4,6 +4,7 @@
 
 #include "changedir.h"
 #include "array.h"
+#include "externs.h"
 
 /**
  * change_dir - changes the current working directory of a user to the
@@ -18,8 +19,7 @@
  *	   return 1 on failure
 */
 
-int change_dir(WINDOW __attribute__((unused))*win,
-	char __attribute__((unused))*command, char **args)
+int change_dir(char __attribute__((unused))*command, char **args)
 {
 	if (a_strlen(args) == 2)
 	{

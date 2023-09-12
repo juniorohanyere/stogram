@@ -36,7 +36,7 @@ int stogram(void)
 {
 	int height, width, status;
 	wins = calloc(sizeof(WINDOW *), 1);
-	pans = calloc(sizeof(PANEL *), 1);
+	pans = calloc(sizeof(PANEL), 1);
 
 	/* initialize ncurses */
 	initscr();
@@ -63,7 +63,6 @@ int stogram(void)
 
 	/* clean up */
 	clean_up();
-	free(pans);
 	free(wins);
 
 	return (status);

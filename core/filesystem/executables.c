@@ -6,13 +6,16 @@
 #include "listdir.h"
 #include "changedir.h"
 #include "executables.h"
+#include "convert.h"
+#include "externs.h"
 
-int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attribute__((unused))*home)
+int locate_command(char *args[], char *home)
 {
 	int status = 0;
 	path_t *path;
 	char *sysroot = calloc(sizeof(char), 1024);
 	char *command = malloc(sizeof(char) * 1024);
+	char *c;
 
 	path = system_path();
 
@@ -33,10 +36,13 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attr
 		/*return (status);*/
 	}
 
-	wprintw(win, "%s\n", command);
+	wprintw(wins[0], "%s\n", command);
+	c = convert_to_string(args[0]);
+	wprintw(wins[0], "%s\n", c);
+	free(c);
 	refresh();
 
-	locate_command2(win, path, args, home);
+	locate_command2(path, args, home);
 
 	free(sysroot);
 	free(command);
@@ -45,7 +51,7 @@ int locate_command(WINDOW __attribute__((unused))*win, char *args[], char __attr
 }
 
 
-int locate_command2(WINDOW *win, path_t *path, char **args, char *home)
+int locate_command2(path_t *path, char **args, char *home)
 {
 	path_t *syspath = path;
 	char *sysroot = calloc(sizeof(char), 1024);
@@ -64,7 +70,7 @@ int locate_command2(WINDOW *win, path_t *path, char **args, char *home)
 		strcat(command, "/");
 		strcat(command, args[0]);
 
-		wprintw(win, "path: %s\n", command);
+		wprintw(wins[0], "path: %s\n", command);
 		syspath = syspath->next;
 	}
 	free(command);
@@ -80,7 +86,7 @@ int locate_command2(WINDOW *win, path_t *path, char **args, char *home)
  * Return: return the status of the executed command
 */
 
-int execute_command(WINDOW *win, char *command, char *args[])
+int execute_command(char *command, char *args[])
 {
 	int status, i;
 	command_t commands[] = {
@@ -90,7 +96,7 @@ int execute_command(WINDOW *win, char *command, char *args[])
 	for (i = 0; commands[i].cmd != NULL; i++)
 	{
 		if (strcmp(command, commands[i].cmd) == 0)
-			status = commands[i].func(win, command, args);
+			status = commands[i].func(command, args);
 	}
 
 	return (status);

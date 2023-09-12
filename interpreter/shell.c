@@ -19,9 +19,9 @@
  * Return: return nothing
 */
 
-void prompt(WINDOW *win)
+void prompt(void)
 {
-	wprintw(win, "::: ");
+	wprintw(wins[0], "::: ");
 
 	update_panels();
 	doupdate();
@@ -41,7 +41,7 @@ int shell(void)
 
 	while (TRUE)
 	{
-		prompt(wins[0]); /* prompt prints the ::: sign */
+		prompt(); /* prompt prints the ::: sign */
 		buffer = calloc(sizeof(char), BUFFER_SIZE);
 		if (buffer == NULL)
 		{
@@ -69,7 +69,7 @@ int shell(void)
 		hex_string = convert_to_hex(buffer);
 		args = parse(hex_string, " ");
 		if (args != NULL)
-			status = locate_command(wins[0], args, home);
+			status = locate_command(args, home);
 		update_panels(), doupdate();
 		free(hex_string), free(buffer), free(args);
 	}
