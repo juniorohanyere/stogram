@@ -17,26 +17,26 @@ TARGET = ./stogram
 
 all: $(OBJS)
 
-array.o: array.c array.h
+array.o: array.c array.h externs.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 error.o: error.c error.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-exit.o: exit.c exit.h
+exit.o: exit.c exit.h externs.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-keyboard.o: keyboard.c array.h exit.h keyboard.h keymapper.h window.h
+keyboard.o: keyboard.c array.h exit.h externs.h keyboard.h keymapper.h window.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-logo.o: logo.c logo.h
+logo.o: logo.c externs.h logo.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 stogram.o: stogram.c ../interpreter/shell.h exit.h logo.h stogram.h \
 	   filesystem/syspath.h window.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-window.o: window.c window.h
+window.o: window.c externs.h window.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all mem-check run

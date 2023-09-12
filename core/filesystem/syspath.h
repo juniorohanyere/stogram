@@ -4,6 +4,7 @@
 #define SYSROOT ".stogram/2f"
 #define BIN "/62696e"	/* bin path */
 #define USR_BIN "/757372/62696e"	/* /usr/bin */
+
 /**
  * struct path_s - a structure to store system paths
  *

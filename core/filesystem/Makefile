@@ -4,8 +4,8 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -I.. -I../../interpreter -Wall -pedantic -Werror -Wextra -Wdeclaration-after-statement \
-	 -std=gnu2x
+CFLAGS = -I.. -I../../interpreter -pedantic -std=gnu2x -Wall \
+	 -Wdeclaration-after-statement -Werror -Wextra
 
 # object files
 OBJS = changedir.o executables.o listdir.o syspath.o
@@ -18,7 +18,7 @@ changedir.o: changedir.c ../array.h ../externs.h changedir.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 executables.o: executables.c ../externs.h ../../interpreter/convert.h \
-	       executables.h syspath.h
+	       changedir.h executables.h listdir.h syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 listdir.o: listdir.c ../externs.h listdir.h
