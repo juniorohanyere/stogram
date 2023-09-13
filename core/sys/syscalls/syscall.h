@@ -27,19 +27,35 @@
 #define _SEEK		"7365656b"
 
 /**
- * struct syscall_s - structure for mapping commands with the right routines
+ * struct syscall_s - structure for accessing a system call along with its
+ *		      arguments if any
  *
- * @cmd: the command to execute
- * @func: the routine to run for @cmd
+ * @name: the name of the system call
+ * @args: the system call arguments
  *
  * Return: return nothing
 */
 
 typedef struct syscall_s
 {
-	char *cmd;
-	int (*func)(char *, char **);
+	char *name;
+	char **args;
 } syscall_t;
+
+/**
+ * struct route_s - structure for mapping commands with the right routines
+ *
+ * @syscall: the system call to execute
+ * @routine: the routine to run for @syscall
+ *
+ * Return: return nothing
+*/
+
+typedef struct route_s
+{
+	char *syscall;
+	routine_t (*routine)(syscall_t *);
+} route_t;
 
 int _exec(char *command, char *args[]);
 int route(char *args[], char *home);

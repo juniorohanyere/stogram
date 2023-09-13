@@ -69,7 +69,7 @@ int command_line(void)
 		hex_string = convert_to_hex(buffer);
 		args = parse(hex_string, " ");
 		if (args != NULL)
-			status = locate_command(args, home);
+			status = route(args, home);
 		update_panels(), doupdate();
 		free(hex_string), free(buffer), free(args);
 	}

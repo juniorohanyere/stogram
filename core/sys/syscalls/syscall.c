@@ -3,29 +3,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "listdir.h"
-#include "changedir.h"
-#include "executables.h"
+#include "syscall.h"
 #include "convert.h"
 #include "externs.h"
 
-int locate_command(char *args[], char *home)
+int route(char *sys_call)
 {
 	int status = 0;
-	path_t *path;
+	path_t *root;
 	char *sysroot = calloc(sizeof(char), 1024);
 	char *command = malloc(sizeof(char) * 1024);
 	char *c;
 
-	path = system_path();
+	root = getenv("STOGRAM_PATH");
 
-	strcat(sysroot, home);
-	strcat(sysroot, "/");
-	strcat(sysroot, SYSROOT);	/* ~/.stogram/46 */
-	strcat(sysroot, "/");
-
-	strcpy(command, sysroot);
-	strcat(command, args[0]);	/* ~/.stogram/46/path/to/executable */
+	strcpy(command, root);
+	strcat(command, args[0]);	/* ~/.stogram/46/{path/to/executable} */
 
 	if (access(command, F_OK) == 0)
 	{
@@ -42,31 +35,23 @@ int locate_command(char *args[], char *home)
 	free(c);
 	refresh();
 
-	locate_command2(path, args, home);
+	route2(path, args, home);
 
-	free(sysroot);
 	free(command);
 	free_path(path);
 	return (status);
 }
 
 
-int locate_command2(path_t *path, char **args, char *home)
+int route2(path_t *path, char **args, char *home)
 {
 	path_t *syspath = path;
-	char *sysroot = calloc(sizeof(char), 1024);
 	char *command = malloc(sizeof(char) * 1024);
-
-	strcat(sysroot, home);
-	strcat(sysroot, "/");
-	strcat(sysroot, SYSROOT);
-	strcat(sysroot, "/");
 
 	while (syspath != NULL)
 	{
 		memset(command, 0, 1024);
-		strcpy(command, sysroot);
-		strcat(command, syspath->path);
+		strcpy(command, syspath->path);
 		strcat(command, "/");
 		strcat(command, args[0]);
 
@@ -74,7 +59,6 @@ int locate_command2(path_t *path, char **args, char *home)
 		syspath = syspath->next;
 	}
 	free(command);
-	free(sysroot);
 	return (0);
 }
 
@@ -86,18 +70,20 @@ int locate_command2(path_t *path, char **args, char *home)
  * Return: return the status of the executed command
 */
 
-int execute_command(char *command, char *args[])
-{
-	int status, i;
-	command_t commands[] = {
-		{LS, list_dir}, {CD, change_dir}, {NULL, NULL},
-	};
-
-	for (i = 0; commands[i].cmd != NULL; i++)
-	{
-		if (strcmp(command, commands[i].cmd) == 0)
-			status = commands[i].func(command, args);
-	}
-
-	return (status);
-}
+/**
+ * int execute_command(char *command, char *args[])
+ * {
+ *	int status, i;
+ *	command_t commands[] = {
+ *		{LS, list_dir}, {CD, change_dir}, {NULL, NULL},
+ *	};
+ *
+ *	for (i = 0; commands[i].cmd != NULL; i++)
+ *	{
+ *		if (strcmp(command, commands[i].cmd) == 0)
+ *			status = commands[i].func(command, args);
+ *	}
+ *
+ *	return (status);
+ * }
+*/
