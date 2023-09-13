@@ -4,8 +4,8 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -I../interpreter -Ifilesystem -I../sys/syscalls -pedantic -std=gnu2x \
-	 -Wall -Wdeclaration-after-statement -Werror -Wextra
+CFLAGS = -I../interpreter -Ifilesystem -I../sys -I../sys/syscalls -pedantic \
+	 -std=gnu2x -Wall -Wdeclaration-after-statement -Werror -Wextra
 
 LIBS = -lpanel -lncurses
 
