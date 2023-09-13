@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "shell.h"
+#include "command_line.h"
 #include "keyboard.h"
 #include "convert.h"
-#include "executables.h"
+#include "syscall.h"
 #include "parser.h"
 #include "error.h"
 #include "exit.h"
@@ -28,12 +28,12 @@ void prompt(void)
 }
 
 /**
- * shell - handles the shell prompts
+ * command_line - handles the shell prompts
  *
  * Return: return status of the called function(s)
 */
 
-int shell(void)
+int command_line(void)
 {
 	int flag, y, status;
 	char *buffer, *hex_string, *home = getenv("HOME");

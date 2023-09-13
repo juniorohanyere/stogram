@@ -9,7 +9,7 @@
 WINDOW **wins;
 PANEL **pans;
 
+int launch(void);
 int stogram(void);
-int commandline(void);
 
 #endif	/* STOGRAM_H */

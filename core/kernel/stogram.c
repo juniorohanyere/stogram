@@ -5,7 +5,7 @@
 #include "stogram.h"
 #include "logo.h"
 #include "exit.h"
-#include "shell.h"
+#include "command_line.h"
 #include "syspath.h"
 
 /**
@@ -21,18 +21,18 @@ int main(int __attribute__((unused))argc, char __attribute__((unused))**argv)
 {
 	int status;
 
-	status = stogram();
+	status = launch();
 	return (status);
 }
 
 /**
- * stogram - handles windowing and other stuff for the stogram program before
+ * launch - handles windowing and other stuff for the stogram program before
  *	     transferring control to the main function
  *
  * Return: return the status of the called function(s)
 */
 
-int stogram(void)
+int launch(void)
 {
 	int height, width, status;
 	wins = calloc(sizeof(WINDOW *), 1);
@@ -59,7 +59,7 @@ int stogram(void)
 	update_panels();
 	doupdate();
 
-	status = commandline();
+	status = stogram();
 
 	/* clean up */
 	clean_up();
@@ -69,16 +69,16 @@ int stogram(void)
 }
 
 /**
- * commandline - calls the shell function
+ * stogram - calls the command_line function
  *
  * Return: return the status of the called function(s)
 */
 
-int commandline(void)
+int stogram(void)
 {
 	int status;
 
-	status = shell();
+	status = command_line();
 	update_panels();
 	doupdate();
 
