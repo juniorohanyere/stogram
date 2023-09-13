@@ -1,5 +1,3 @@
-Great, you've provided a good starting point for a wiki description of "stogram." I'll expand upon this and create a more comprehensive wiki-style description for your project. Here's a draft that includes sections for features, getting started, and frequently asked questions (FAQs):
-
 ---
 
 # Stogram - Command Line Chat Environment
@@ -60,7 +58,7 @@ A: Currently, Stogram is designed for peer-to-peer communication. However, we ar
 
 ---
 
-Feel free to use and modify this draft as needed for your wiki page. You can add or refine sections based on your project's specific details and requirements. If you have any further questions or need additional assistance, please let me know.
+Feel free to use and modify this draft as needed for the wiki page. You can add or refine sections. If you have any further questions or need additional assistance, create an issue, or slide into Discussion
 
 
 
@@ -232,3 +230,5 @@ Here's an explanation of "init 1" and the other common runlevels:
 Please note that while these runlevels are commonly used in traditional SysV Init-based systems, modern Linux distributions, such as those using systemd, may use different mechanisms for managing system runstates and services. In systemd, for example, runlevels are replaced with target units, and changing runstates is done using `systemctl` commands (e.g., `systemctl isolate multi-user.target`).
 
 The concept of runlevels remains relevant in legacy systems and provides a way to control system behavior during different operational states.
+
+> Note that this should rather be taken as a **chat environment**, instead of am **operating system**. This is just a rough draft
