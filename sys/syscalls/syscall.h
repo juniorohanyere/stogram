@@ -2,6 +2,7 @@
 #define SYSCALL_H
 
 #include "syspath.h"
+#include "routine.h"
 
 /**
  * these are macros to system calls, the below system calls are hexadecimal
@@ -54,11 +55,11 @@ typedef struct syscall_s
 typedef struct route_s
 {
 	char *syscall;
-	routine_t (*routine)(syscall_t *);
+	int (*routine)(routine_t *);
 } route_t;
 
 int _exec(char *command, char *args[]);
-int route(char *args[], char *home);
+int route(char *args[]);
 int route2(path_t *path, char *args[], char *home);
 
 #endif	/* EXEXUTABLES_H */

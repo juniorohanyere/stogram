@@ -74,4 +74,3 @@ int command_line(void)
 		free(hex_string), free(buffer), free(args);
 	}
 	return (status);
-}

@@ -7,18 +7,16 @@
 #include "convert.h"
 #include "externs.h"
 
-int route(char *sys_call)
+int route(char *syscall)
 {
 	int status = 0;
-	path_t *root;
-	char *sysroot = calloc(sizeof(char), 1024);
+	path_t *path = system_path();
+	char *sysroot = getenv("STOGRAM_ROOT");
 	char *command = malloc(sizeof(char) * 1024);
 	char *c;
 
-	root = getenv("STOGRAM_PATH");
-
-	strcpy(command, root);
-	strcat(command, args[0]);	/* ~/.stogram/46/{path/to/executable} */
+	strcpy(command, sysroot);
+	strcat(command, args[0]);	/* ~/.stogram/2f/{path/to/executable} */
 
 	if (access(command, F_OK) == 0)
 	{

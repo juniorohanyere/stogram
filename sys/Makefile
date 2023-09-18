@@ -4,7 +4,7 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
+CFLAGS = -I../core -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
 	 -Wextra
 
 # object files
@@ -14,7 +14,7 @@ TARGET = ../launch/run
 
 all: $(OBJS)
 
-syspath.o: syspath.c syspath.h
+syspath.o: syspath.c ../core/parser.c syspath.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all run

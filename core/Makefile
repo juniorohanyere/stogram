@@ -4,7 +4,7 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -I../interpreter -Ifilesystem -I../sys -I../sys/syscalls -pedantic \
+CFLAGS = -I../sys -I../sys/syscalls -pedantic \
 	 -std=gnu2x -Wall -Wdeclaration-after-statement -Werror -Wextra
 
 LIBS = -lpanel -lncurses
@@ -14,7 +14,7 @@ OBJS = array.o command_line.o convert.o error.o exit.o keyboard.o logo.o \
        parser.o stogram.o window.o
 
 # the target file to build
-TARGET = ../launch/run
+TARGET = ../launch/stogram
 
 all: $(OBJS)
 
