@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "listdir.h"
+#include "externs.h"
 
 /**
  * list_dir - lists the content of a directory
@@ -20,7 +21,7 @@
  *	   return 1 on failure
 */
 
-int list_dir(WINDOW *win, char __attribute__((unused))*command, char *args[])
+int list_dir(char __attribute__((unused))*command, char *args[])
 {
 	DIR *dir;
 	dirent_t *rdir;
@@ -32,7 +33,7 @@ int list_dir(WINDOW *win, char __attribute__((unused))*command, char *args[])
 	else
 	{
 		/* implement when multiple dirs are specified */
-		wprintw(win, "WARNING: feature under construction!");
+		wprintw(wins[0], "WARNING: feature under construction!");
 		return (0);
 	}
 	if (dir == NULL)
@@ -45,7 +46,7 @@ int list_dir(WINDOW *win, char __attribute__((unused))*command, char *args[])
 
 	while ((rdir = readdir(dir)) != NULL)
 	{
-		wprintw(win, "%s\n", rdir->d_name);
+		wprintw(wins[0], "%s\n", rdir->d_name);
 	}
 
 	closedir(dir);

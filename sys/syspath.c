@@ -4,6 +4,7 @@
 #include <ncurses.h>
 
 #include "syspath.h"
+#include "parser.h"
 
 path_t *new_path(const char *path)
 {
@@ -65,10 +66,14 @@ void free_path(path_t *syspath)
 
 path_t *system_path(void)
 {
+	int i;
 	path_t *syspath = NULL;
+	char *path = getenv("STOGRAM_PATH");
+	char **paths;
 
-	add_path(&syspath, BIN);	/* bin path */
-	add_path(&syspath, USR_BIN);	/* /usr/bin */
+	paths = parse(path, ":");
+	for (i = 0; paths[i] != NULL; i++)
+		add_path(&syspath, BIN);
 
 	return (syspath);
 }
