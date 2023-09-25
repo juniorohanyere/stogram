@@ -28,8 +28,9 @@ typedef enum status_s
 /**
  * enum state_s - enum for process state
  *
- * @IDLE: idle state
  * @RUNNING: running state, meaning the process is still active
+ * @IDLE: idle state
+ * @SLEEPING: sleeping state
  * @BLOCKED: blocked state
  * @READY: ready state, meaning ready or queued for execution
  * @TERMINATED: process terminated
@@ -39,9 +40,9 @@ typedef enum status_s
 
 typedef enum state_s
 {
+	RUNNING,
 	IDLE,
 	SLEEPING,
-	RUNNING,
 	BLOCKED,
 	READY,
 	TERMINATED
@@ -81,8 +82,8 @@ typedef struct pcb_s
 	struct pcb_s *child;
 } pcb_t;
 
-PCB **create_pcb(uint16_t pid, uint16_t ppid, uint16_t prio, uint16_t pc,
-	status_t status, state_t state, char *name, char *reg,
-	meminfo_t *meminfo, FDT *fdt, TCB *tcb, PCB *child);
+void init_process(void);
+int32_t create_process(uint16_t ppid, uint16_t prio, uint16_t pc,
+	status_t status, state_t state, char *name, char *reg);
 
 #endif	/* PCB_H */
