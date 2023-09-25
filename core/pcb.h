@@ -3,9 +3,10 @@
 
 #define PCB pcb_t
 #define TCB tcb_t
-#define FDT fdt_t
 
 #include <stdint.h>
+
+#include "fdt.h"
 
 /**
  * enum status_s - enum for process status
@@ -39,6 +40,7 @@ typedef enum status_s
 typedef enum state_s
 {
 	IDLE,
+	SLEEPING,
 	RUNNING,
 	BLOCKED,
 	READY,
