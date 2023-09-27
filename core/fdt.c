@@ -7,72 +7,100 @@
 #include "externs.h"
 
 /**
- * init_fdt - initializes the file descriptor table
+ * init_stdio - the stogram standard input and output
+ *
+ * Description: assigns an amount of memory each to stdin, stdout, and stderr
  *
  * Return: return nothing
 */
 
-void init_fdt(void)
+void init_stdio(void)
 {
 	int i;
+
+	for (i = 0; i < 3; i++)
+	{
+		_stdio[i] = malloc(sizeof(char
+
+/**
+ * init_fdt - initializes the file descriptor table
+ *
+ * Description: ==>(OK; MALLOC_ERR)<==
+ *
+ * Return: return nothing
+*/
+
+FDT *init_fdt(void)
+{
+	FDT *fdt;
+	int i;
+
+	fdt = malloc(sizeof(FDT) * FDT_SIZE);
+	if (fdt == NULL)
+	{
+		pcb->status = MALLOC_ERR;
+		return (fdt);
+	}
 
 	/* index 0, 1, and 2 is reserved for stdin, stdout, and stderr */
 	for (i = 3; i < FDT_SIZE; i++)
 	{
-		fdt[i]._errno = OK;
-
+		pcb->status = OK;
 		fdt[i].fd = 0;
-		fdt[i].flags = 0;
+		fdt[i].modes = 0;
 
-		fdt[i].offet = 0;
+		fdt[i].offset = 0;
 
 		fdt[i].filename = NULL;
 	}
+	return (fdt);
 }
 
 /**
  * open_file - manages open file descriptors
  *
  * @filename: the name of the file to open
- * @flag: the mode to open the file
+ * @modes: the modes to open the file
  *
- * Return: return a file descriptor of the opened file as integer on success
- *	   return -1 on failure and _errno set to indicate the error
+ * Description: ==>(OK; MALLOC_ERR; OFILE_ERR; FDT_ERR)<==
+ *
+ * Return: return a file descriptor success
+ *	   return 0 if file descriptor table is full
 */
 
-int open_file(const char *filename, int modes)
+uint16_t openfd(uint16_t pid, const char *filename, int modes)
 {
-	int fd;
-	int32_t i;	/* stogram file descriptor */
+	int fd;	/* file descriptor provided by the underlying OS */
+	uint16_t i;	/* Stogram file descriptor */
 
-	for (i = 3; i < FDT_SIZE; i++)
+	for (i = 0; i < FDT_SIZE; i++)
 	{
-		if (fdt[i].filename == NULL)
+		if (pcb[pid].fdt[i].filename == NULL)
 		{
 			/* empty slot found */
-			fdt[i].filename = strdup(filename);
-			if (fdt[i].filename == NULL)
+			pcb[pid].fdt[i].filename = strdup(filename);
+			if (pcb[pid].fdt[i].filename == NULL)
 			{
-				fdt[i]._errno = MALLOC_ERR;
-				return (-1);
+				pcb->status = MALLOC_ERR;
+				return (i);
 			}
 
-			fd = open(fdt[i].filename, modes);
+			fd = open(pcb[pid].fdt[i].filename, modes);
 			if (file == -1)
 			{
-				fdt[i]._errno = OFILE_ERR;
-				free(fdt[i].filename);
+				pcb->status = OFILE_ERR;
 
-				return (-1);
+				return (i);
 			}
 
-			fdt[i].modes = modes;
-			fdt[i].fd = fd;	/* will be used to handle close() */
-			fdt[i]._errno = OK;
+			pcb->status = OK;
+			pcb[pid].fdt[i].modes = modes;
+			/* fd will be used to handle close() function */
+			pcb[pid].fdt[i].fd = fd;
 
-			return (i);	/* return the file descriptor */
+			return (i);	/* Stogram file descriptor */
 		}
 	}
-	fdt[i]._errno = FDT_ERR;
-	return (-1);
+	pcb->status = FDT_ERR;
+	return (0);
 }

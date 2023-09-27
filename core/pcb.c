@@ -10,6 +10,8 @@
 /**
  * init_pcb - initializes the process control block
  *
+ * Description: the maximum number of processes is 1024 * 10 => 10240
+ *
  * Return: return nothing
 */
 
@@ -18,25 +20,30 @@ void init_process(void)
 	pcb = malloc(sizeof(PCB) * PCB_SIZE);
 	if (pcb == NULL)
 	{
-		pcb->_errno = MALLOC_ERR;
+		pcb->status = MALLOC_ERR;
 		return;
 	}
 
-	for (i = 1; i < PCB_SIZE; i++)
+	for (i = 0; i < PCB_SIZE; i++)
 	{
-		pcb[i]._errno = OK;
-		pcb[i].state = RUNNING;
+		/* fill children PIDs with zeros */
+		pcb[i].fdt = init_fdt();
+		pcb[i].children = malloc(sizeof(int) * PCB_SIZE);
+		if (pcb->status == MALLOC_ERR ||
+			pcb[i].children == NULL)
+		{
+			pcb->status = MALLOC_ERR;
+			return;
+		}
 
-		pcb[i].pid = i;
+		pcb->status = OK;
 		pcb[i].ppid = 0;
 		pcb[i].prio = 0;
-		pcb[i].pc = 0;
-
+		pcb[i].state = RUNNING;
 		pcb[i].name = NULL;
-		pcb[i].reg = NULL;
-
-		pcb[i].meminfo = meminfo;
-		pcb[i].fdt = fdt;
+		/* pcb[i].meminfo = meminfo; */
+		/* pcb[i].pc = 0; */
+		/* pcb[i].reg = NULL; */
 	}
 }
 
@@ -45,41 +52,41 @@ void init_process(void)
  *
  * @ppid: the parent process id
  * @prio: the priority
- * @pc: the program counter
- * @_errno: indicator for error
- * @state: the process state (idle, running, ready, bocked, terminated, etc)
  * @name: the process name
- * @reg: the process cpu registers
+ *
+ * Description: @name must not be NULL, else it will be taken as malloc error
  *
  * Return: return the process id (pid)
 */
 
-int32_t create_process(uint16_t ppid, uint16_t prio, uint16_t pc,
-	state_t state, char *name, char *reg)
+uint16_t create_process(uint16_t ppid, uint16_t prio, char *name)
 {
-	int32_t i;
+	uint16_t i;	/* this is the pid */
 
-	for (i = 1; i < PCB_SIZE; i++)
+	for (i = 0; i < PCB_SIZE; i++)
 	{
 		if (pcb[i].name == NULL)
 		{
 			/* empty slot found */
-			pcb[i]._errno = OK;
-			pcb[i].state = state;
+			pcb[i].name = strdup(name);
+			if (pcb[i].name == NULL)
+			{
+				pcb->status = MALLOC_ERR;
+				return (i);
+			}
 
-			pcb[i].pid = pid;
+			pcb->status = OK;
 			pcb[i].ppid = ppid;
 			pcb[i].prio = prio;
-			pcb[i].pc = pc;
-
-			pcb[i].name = strdup(name);
-			pcb[i].reg = strdup(reg);
+			/* pcb[i].pc = pc; */
+			/* pcb[i].reg = reg; */
 
 			add_child(ppid, i);
 
 			return (i);	/* return i as the pid */
 		}
 	}
-	pcb->_errno = PCB_ERR;
-	return (-1);	/* when the process table is full */
+	/* when the process table is full */
+	pcb->status = PCB_ERR;
+	return (0);
 }

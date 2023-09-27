@@ -3,37 +3,37 @@
 
 #define PCB pcb_t
 #define TCB tcb_t
+#define PCB_SIZE (1024 * 10)
 
 #include <stdint.h>
 
 #include "fdt.h"
-#include "status.h"
+#include "indicator.h"
 
 /**
  * struct pcb_s - Process Control Block structure
  *
- * @pid: the process id
+ * @children: an array of integer for storing the PIDs of child process of a
+ *	      parent process
  * @ppid: the parent process id
  * @prio: the priority
  * @pc: the program counter
- * @_errno: flag for handling errors
  * @status: the exit status of the process
  * @state: the process state (idle, running, ready, bocked, terminated, etc)
  * @name: the process name
- * @reg: the process cpu registers
- * @meminfo: the memory information
- * @fdt: file descritor table
- * @tcb: the thread control block (TCB)
- *
- * Description: the maximum number of processes is uint16_t (65,535)
+ * @reg: registers
+ * @meminfo: the process memory information
+ * @fdt: file descriptor table
+ * @tcb: thread control block
  *
  * Return: return nothing
 */
 
 typedef struct pcb_s
 {
-	uint16_t pid, ppid, prio, pc;
-	status_t _errno, status;
+	int *children;
+	uint16_t ppid, prio, pc;
+	status_t status;
 	state_t state;
 	char *name, *reg;
 	meminfo_t *meminfo;
@@ -42,7 +42,6 @@ typedef struct pcb_s
 } pcb_t;
 
 void init_process(void);
-int32_t create_process(uint16_t ppid, uint16_t prio, uint16_t pc,
-	status_t status, state_t state, char *name, char *reg);
+uint16_t create_process(uint16_t ppid, uint16_t prio, char *name);
 
 #endif	/* PCB_H */

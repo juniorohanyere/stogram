@@ -1,5 +1,5 @@
-#ifndef STATUS_H
-#define STATUS_H
+#ifndef INDICATOR_H
+#define INDICATOR_H
 
 /**
  * enum status_s - enum for process status
@@ -43,4 +43,4 @@ typedef enum state_s
         TERMINATED
 } state_t;
 
-#endif	/* STATUS_H */
+#endif	/* INDICATOR_H */

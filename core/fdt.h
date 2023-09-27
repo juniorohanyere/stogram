@@ -6,7 +6,7 @@
 
 #include <unistd.h>
 
-#include "status.h"
+#include "indicator.h"
 
 /**
  * struct fdt_s - structure to manage the file descriptor table
@@ -27,7 +27,6 @@
 typedef struct fdt_s
 {
 	int fd, flag;
-	status_t _errno;
 	off_t offset;
 	char *filename;
 	/* more fields ... */
