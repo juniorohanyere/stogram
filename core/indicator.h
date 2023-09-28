@@ -6,7 +6,10 @@
  *
  * @OK: sucess
  * @FAILED: failure
- * @ERR_M: memory allocation error
+ * @MALLOC_ERR: memory allocation error
+ * @FDT_ERR: file descriptor table full or any related fd errors
+ * @OFILE_ERR: error opening file
+ * @IFD_ERR: invalid file descriptor
  *
  * Return: return nothing
 */
@@ -16,8 +19,10 @@ typedef enum status_s
 	OK,
 	FAILED,
 	MALLOC_ERR,
-	FDT_ERR,
-	OFILE_ERR;
+	PCB_ERR,
+	FDT_FULL,
+	OFILE_ERR,
+	INV_FD
 } status_t;
 
 /**

@@ -7,22 +7,6 @@
 #include "externs.h"
 
 /**
- * init_stdio - the stogram standard input and output
- *
- * Description: assigns an amount of memory each to stdin, stdout, and stderr
- *
- * Return: return nothing
-*/
-
-void init_stdio(void)
-{
-	int i;
-
-	for (i = 0; i < 3; i++)
-	{
-		_stdio[i] = malloc(sizeof(char
-
-/**
  * init_fdt - initializes the file descriptor table
  *
  * Description: ==>(OK; MALLOC_ERR)<==
@@ -43,9 +27,25 @@ FDT *init_fdt(void)
 	}
 
 	/* index 0, 1, and 2 is reserved for stdin, stdout, and stderr */
+	for (i = 0; i < 3; i++)
+	{
+		fdt[i].filename = malloc(sizeof(char) * 1024);
+		if (fdt[i].filename == NULL)
+		{
+			pcb->status = MALLOC_ERR;
+
+			return (fdt);
+		}
+	}
+
+	pcb->status = OK;
+
+	fdt[0].fd = STDIN_FILENO;
+	fdt[1].fd = STDOUT_FILENO;
+	fdt[2].fd = STDERR_FILENO;
+
 	for (i = 3; i < FDT_SIZE; i++)
 	{
-		pcb->status = OK;
 		fdt[i].fd = 0;
 		fdt[i].modes = 0;
 
@@ -62,18 +62,18 @@ FDT *init_fdt(void)
  * @filename: the name of the file to open
  * @modes: the modes to open the file
  *
- * Description: ==>(OK; MALLOC_ERR; OFILE_ERR; FDT_ERR)<==
+ * Description: ==>(OK; MALLOC_ERR; OFILE_ERR; FDT_FULL)<==
  *
  * Return: return a file descriptor success
  *	   return 0 if file descriptor table is full
 */
 
-uint16_t openfd(uint16_t pid, const char *filename, int modes)
+uint16_t open_file(uint16_t pid, const char *filename, int modes)
 {
 	int fd;	/* file descriptor provided by the underlying OS */
 	uint16_t i;	/* Stogram file descriptor */
 
-	for (i = 0; i < FDT_SIZE; i++)
+	for (i = 3; i < FDT_SIZE; i++)
 	{
 		if (pcb[pid].fdt[i].filename == NULL)
 		{
@@ -101,6 +101,31 @@ uint16_t openfd(uint16_t pid, const char *filename, int modes)
 			return (i);	/* Stogram file descriptor */
 		}
 	}
-	pcb->status = FDT_ERR;
+	pcb->status = FDT_FULL;
 	return (0);
+}
+
+/**
+ * close_file - destroys the file descriptor number associated with an open
+ *		file and closes the file
+ *
+ * @fd: the file descriptor number of an open file (see open_file())
+ *
+ * Description: ==>(INV_FD)<==
+ *
+ * Return: return nothing
+*/
+
+void close_file(uint16_t pid, uint16_t fd)
+{
+	if (fd >= 0 && fd < FDT_SIZE)
+	{
+		pcb->status = OK;
+		free(pcb[pid].fdt[fd].filename);
+
+		if (fd > 2)
+			close(pcb[pid].fdt[fd].fd);
+		return;
+	}
+	pcb->status = INV_FD;
 }

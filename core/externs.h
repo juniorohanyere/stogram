@@ -3,9 +3,6 @@
 
 #include "fdt.h"
 
-extern FDT *fdt;
-extern char *_stdin;
-extern char *_stdout;
-extern char *_stderr;
+extern PCB *pcb;
 
 #endif	/* EXTERNS_H */

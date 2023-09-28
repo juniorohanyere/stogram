@@ -36,9 +36,9 @@ typedef struct pcb_s
 	status_t status;
 	state_t state;
 	char *name, *reg;
-	meminfo_t *meminfo;
+	/* meminfo_t *meminfo; */
 	FDT *fdt;
-	TCB *tcb;
+	/* TCB *tcb; */
 } pcb_t;
 
 void init_process(void);

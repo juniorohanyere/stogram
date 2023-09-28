@@ -6,6 +6,7 @@
 
 #include <unistd.h>
 
+#include "fdt.h"
 #include "indicator.h"
 
 /**
@@ -32,7 +33,7 @@ typedef struct fdt_s
 	/* more fields ... */
 } fdt_t;
 
-void init_fdt(void);
+FDT *init_fdt(void);
 int open_file(const char *filename, int flag);
 
 #endif	/* FDT_H */

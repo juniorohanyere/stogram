@@ -17,6 +17,8 @@
 
 void init_process(void)
 {
+	int i;
+
 	pcb = malloc(sizeof(PCB) * PCB_SIZE);
 	if (pcb == NULL)
 	{
