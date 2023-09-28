@@ -5,8 +5,8 @@
 #define	FDT_SIZE 1024
 
 #include <unistd.h>
+#include <stdint.h>
 
-#include "fdt.h"
 #include "indicator.h"
 
 /**
@@ -27,13 +27,13 @@
 
 typedef struct fdt_s
 {
-	int fd, flag;
+	int fd, modes;
 	off_t offset;
 	char *filename;
 	/* more fields ... */
 } fdt_t;
 
 FDT *init_fdt(void);
-int open_file(const char *filename, int flag);
+uint16_t open_file(uint16_t pid, const char *filename, int modes);
 
 #endif	/* FDT_H */

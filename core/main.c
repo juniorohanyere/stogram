@@ -3,6 +3,8 @@
 #include "fdt.h"
 #include "pcb.h"
 #include "externs.h"
+#include "main.h"
+#include "indicator.h"
 
 /**
  * main - entry point
@@ -14,8 +16,6 @@
 
 int main(void)
 {
-	int p;
-
 	init_system();
 
 	return (0);
@@ -37,7 +37,6 @@ void init_system(void)	/* swapper */
 {
 	uint16_t initd;
 
-	init_fdt();
 	init_process();
 
 	if (pcb->status == MALLOC_ERR)
@@ -75,7 +74,7 @@ void system_daemon(uint16_t ppid)
 
 	/* initiate services, mounts, protocols, slices, etc */
 	/* init_presets(); */
-	init_services(systemd);
+	/* init_services(systemd); */
 	/*
 	 * init_mounts();
 	 * init_protocols();

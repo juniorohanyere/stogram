@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include "fdt.h"
 #include "externs.h"
@@ -86,7 +87,7 @@ uint16_t open_file(uint16_t pid, const char *filename, int modes)
 			}
 
 			fd = open(pcb[pid].fdt[i].filename, modes);
-			if (file == -1)
+			if (fd == -1)
 			{
 				pcb->status = OFILE_ERR;
 
@@ -118,7 +119,7 @@ uint16_t open_file(uint16_t pid, const char *filename, int modes)
 
 void close_file(uint16_t pid, uint16_t fd)
 {
-	if (fd >= 0 && fd < FDT_SIZE)
+	if (fd >= 0 && fd < FDT_SIZE && pcb[pid].fdt[fd].filename != NULL)
 	{
 		pcb->status = OK;
 		free(pcb[pid].fdt[fd].filename);
