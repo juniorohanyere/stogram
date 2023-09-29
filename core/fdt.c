@@ -119,7 +119,7 @@ uint16_t open_file(uint16_t pid, const char *filename, int modes)
 
 void close_file(uint16_t pid, uint16_t fd)
 {
-	if (fd >= 0 && fd < FDT_SIZE && pcb[pid].fdt[fd].filename != NULL)
+	if (fd < FDT_SIZE && pcb[pid].fdt[fd].filename != NULL)
 	{
 		pcb->status = OK;
 		free(pcb[pid].fdt[fd].filename);
