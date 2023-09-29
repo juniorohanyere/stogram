@@ -3,18 +3,21 @@
 #include "fdt.h"
 #include "pcb.h"
 #include "externs.h"
-#include "main.h"
+#include "skernel.h"
 #include "indicator.h"
 
 /**
- * main - entry point
+ * skernel - entry point for the Stogram Kernel
  *
  * Description: pcb->status is always used to handle error/exit status
+ *		always check the error/exit status returned by a function in
+ *		description of the function, to know how to handle errors when
+ *		making use of the function
  *
  * Return: always return 0 for now
 */
 
-int main(void)
+int skernel(void)
 {
 	init_system();
 
