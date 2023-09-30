@@ -2,7 +2,6 @@
 #define PCB_H
 
 #define PCB pcb_t
-#define TCB tcb_t
 #define PCB_SIZE (1024 * 10)
 
 #include <stdint.h>
@@ -22,9 +21,7 @@
  * @state: the process state (idle, running, ready, bocked, terminated, etc)
  * @name: the process name
  * @reg: registers
- * @meminfo: the process memory information
  * @fdt: file descriptor table
- * @tcb: thread control block
  *
  * Return: return nothing
 */
@@ -41,7 +38,11 @@ typedef struct pcb_s
 	/* TCB *tcb; */
 } pcb_t;
 
-void init_process(void);
-uint16_t create_process(uint16_t ppid, uint16_t prio, char *name);
+void init_process(PCB *pcb);
+uint16_t create_process(PCB *pcb, uint16_t ppid, uint16_t prio, char *name);
+
+/* prototypes for functions in fdt.c */
+FDT *init_fdt(PCB *pcb);
+uint16_t open_file(PCB *pcb, uint16_t pid, const char *filename, int modes);
 
 #endif	/* PCB_H */

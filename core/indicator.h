@@ -7,9 +7,10 @@
  * @OK: sucess
  * @FAILED: failure
  * @MALLOC_ERR: memory allocation error
- * @FDT_ERR: file descriptor table full or any related fd errors
  * @OFILE_ERR: error opening file
- * @IFD_ERR: invalid file descriptor
+ * @PCB_FULL: when number of processes is at its peak
+ * @FDT_FULL: file descriptor table full or any related fd errors
+ * @INV_FD: invalid file descriptor
  *
  * Return: return nothing
 */
@@ -19,9 +20,9 @@ typedef enum status_s
 	OK,
 	FAILED,
 	MALLOC_ERR,
-	PCB_ERR,
-	FDT_FULL,
 	OFILE_ERR,
+	PCB_FULL,
+	FDT_FULL,
 	INV_FD
 } status_t;
 
@@ -40,12 +41,12 @@ typedef enum status_s
 
 typedef enum state_s
 {
-        RUNNING,
-        IDLE,
-        SLEEPING,
-        BLOCKED,
-        READY,
-        TERMINATED
+	RUNNING,
+	IDLE,
+	SLEEPING,
+	BLOCKED,
+	READY,
+	TERMINATED
 } state_t;
 
 #endif	/* INDICATOR_H */

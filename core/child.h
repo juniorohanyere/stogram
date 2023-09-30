@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 
-void add_child(uint16_t ppid, uint16_t pid);
-void delete_child(uint16_t ppid, uint16_t pid);
+#include "pcb.h"
+
+void add_child(PCB *pcb, uint16_t ppid, uint16_t pid);
+void delete_child(PCB *pcb, uint16_t ppid, uint16_t pid);
 
 #endif	/* CHILD_H */

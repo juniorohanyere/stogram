@@ -4,8 +4,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "fdt.h"
-#include "externs.h"
+#include "pcb.h"
+
+/* prototypes for functions in this file are in pcb.h */
 
 /**
  * init_fdt - initializes the file descriptor table
@@ -15,7 +16,7 @@
  * Return: return nothing
 */
 
-FDT *init_fdt(void)
+FDT *init_fdt(PCB *pcb)
 {
 	FDT *fdt;
 	int i;
@@ -58,18 +59,19 @@ FDT *init_fdt(void)
 }
 
 /**
- * open_file - manages open file descriptors
+ * open_file - generates a file decriptor for a given process id
  *
+ * @pid: process id to generate a file descriptor for
  * @filename: the name of the file to open
  * @modes: the modes to open the file
  *
- * Description: ==>(OK; MALLOC_ERR; OFILE_ERR; FDT_FULL)<==
+ * Description: ==>(OK, MALLOC_ERR, OFILE_ERR, FDT_FULL)<==
  *
  * Return: return a file descriptor success
  *	   return 0 if file descriptor table is full
 */
 
-uint16_t open_file(uint16_t pid, const char *filename, int modes)
+uint16_t open_file(PCB *pcb, uint16_t pid, const char *filename, int modes)
 {
 	int fd;	/* file descriptor provided by the underlying OS */
 	uint16_t i;	/* Stogram file descriptor */
@@ -110,6 +112,7 @@ uint16_t open_file(uint16_t pid, const char *filename, int modes)
  * close_file - destroys the file descriptor number associated with an open
  *		file and closes the file
  *
+ * @pid: the pid of the file descriptor to destroy
  * @fd: the file descriptor number of an open file (see open_file())
  *
  * Description: ==>(INV_FD)<==
@@ -117,7 +120,7 @@ uint16_t open_file(uint16_t pid, const char *filename, int modes)
  * Return: return nothing
 */
 
-void close_file(uint16_t pid, uint16_t fd)
+void close_file(PCB *pcb, uint16_t pid, uint16_t fd)
 {
 	if (fd < FDT_SIZE && pcb[pid].fdt[fd].filename != NULL)
 	{

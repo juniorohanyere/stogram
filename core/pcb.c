@@ -4,18 +4,17 @@
 
 #include "pcb.h"
 #include "child.h"
-#include "externs.h"
 #include "indicator.h"
 
 /**
- * init_pcb - initializes the process control block
+ * init_process - initializes the process control block
  *
  * Description: the maximum number of processes is 1024 * 10 => 10240
  *
  * Return: return nothing
 */
 
-void init_process(void)
+void init_process(PCB *pcb)
 {
 	int i;
 
@@ -29,7 +28,7 @@ void init_process(void)
 	for (i = 0; i < PCB_SIZE; i++)
 	{
 		/* fill children PIDs with zeros */
-		pcb[i].fdt = init_fdt();
+		pcb[i].fdt = init_fdt(pcb);
 		pcb[i].children = malloc(sizeof(int) * PCB_SIZE);
 		if (pcb->status == MALLOC_ERR ||
 			pcb[i].children == NULL)
@@ -61,7 +60,7 @@ void init_process(void)
  * Return: return the process id (pid)
 */
 
-uint16_t create_process(uint16_t ppid, uint16_t prio, char *name)
+uint16_t create_process(PCB *pcb, uint16_t ppid, uint16_t prio, char *name)
 {
 	uint16_t i;	/* this is the pid */
 
@@ -83,12 +82,12 @@ uint16_t create_process(uint16_t ppid, uint16_t prio, char *name)
 			/* pcb[i].pc = pc; */
 			/* pcb[i].reg = reg; */
 
-			add_child(ppid, i);
+			add_child(pcb, ppid, i);
 
 			return (i);	/* return i as the pid */
 		}
 	}
 	/* when the process table is full */
-	pcb->status = PCB_ERR;
+	pcb->status = PCB_FULL;
 	return (0);
 }

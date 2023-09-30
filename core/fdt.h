@@ -7,13 +7,14 @@
 #include <unistd.h>
 #include <stdint.h>
 
+#include "pcb.h"
 #include "indicator.h"
 
 /**
  * struct fdt_s - structure to manage the file descriptor table
  *
  * @fd: system level file descriptor
- * @flag: the read-write mode of @fd
+ * @modes: the read-write mode of @fd
  * @offset: the offset from where read/write starts from in the file pointed to
  *	    by @fd
  * @filename: the name of the file to open
@@ -32,8 +33,5 @@ typedef struct fdt_s
 	char *filename;
 	/* more fields ... */
 } fdt_t;
-
-FDT *init_fdt(void);
-uint16_t open_file(uint16_t pid, const char *filename, int modes);
 
 #endif	/* FDT_H */

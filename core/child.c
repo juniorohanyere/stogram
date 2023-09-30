@@ -1,8 +1,6 @@
 #include "child.h"
 #include "pcb.h"
 
-#include "externs.h"
-
 /**
  * add_child - adds a process id to a list of process ids of a particular
  *	       process known as parent process id
@@ -18,7 +16,7 @@
  * Return: return nothing
 */
 
-void add_child(uint16_t ppid, uint16_t pid)
+void add_child(PCB *pcb, uint16_t ppid, uint16_t pid)
 {
 	uint16_t i;
 
@@ -44,7 +42,7 @@ void add_child(uint16_t ppid, uint16_t pid)
  * Return: return nothing
 */
 
-void delete_child(uint16_t ppid, uint16_t pid)
+void delete_child(PCB *pcb, uint16_t ppid, uint16_t pid)
 {
 	uint16_t i;
 

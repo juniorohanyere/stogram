@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-#include "fdt.h"
 #include "pcb.h"
-#include "externs.h"
 #include "skernel.h"
 #include "indicator.h"
 
@@ -17,9 +15,11 @@
  * Return: always return 0 for now
 */
 
-int skernel(void)
+int main(void)
 {
-	init_system();
+	PCB *pcb = NULL;
+
+	init_system(pcb);
 
 	return (0);
 }
@@ -36,11 +36,11 @@ int skernel(void)
  * Return: return nothing
 */
 
-void init_system(void)	/* swapper */
+void init_system(PCB *pcb)	/* swapper */
 {
-	uint16_t initd;
+	uint16_t bootd;
 
-	init_process();
+	init_process(pcb);
 
 	if (pcb->status == MALLOC_ERR)
 	{
@@ -49,7 +49,7 @@ void init_system(void)	/* swapper */
 		return;
 	}
 
-	initd = create_process(0, 0, "initd");	/* place holder */
+	bootd = create_process(pcb, 0, 0, "bootd");	/* place holder */
 	if (pcb->status == MALLOC_ERR)
 	{
 		/* malloc_error(); */
@@ -57,7 +57,7 @@ void init_system(void)	/* swapper */
 		return;
 	}
 
-	system_daemon(initd);
+	system_daemon(pcb, bootd);
 }
 
 /**
@@ -68,12 +68,12 @@ void init_system(void)	/* swapper */
  * Return: return nothing
 */
 
-void system_daemon(uint16_t ppid)
+void system_daemon(PCB *pcb, uint16_t ppid)
 {
 	uint16_t systemd;
 
 	/* start systemd process, pid 1 is specially reserved for it */
-	systemd = create_process(ppid, 1, "systemd");
+	systemd = create_process(pcb, ppid, 1, "systemd");
 
 	/* initiate services, mounts, protocols, slices, etc */
 	/* init_presets(); */

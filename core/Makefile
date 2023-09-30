@@ -16,16 +16,16 @@ TARGET = skernel
 
 all: $(OBJS)
 
-child.o: child.c child.h externs.h pcb.h
+child.o: child.c child.h pcb.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-fdt.o: fdt.c externs.h fdt.h
+fdt.o: fdt.c fdt.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-pcb.o: pcb.c child.h externs.h indicator.h pcb.h
+pcb.o: pcb.c child.h indicator.h pcb.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-skernel.o: skernel.c externs.h fdt.h indicator.h pcb.h skernel.h
+skernel.o: skernel.c fdt.h indicator.h pcb.h skernel.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean clean-all

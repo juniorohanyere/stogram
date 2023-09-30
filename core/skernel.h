@@ -3,8 +3,10 @@
 
 #include <stdint.h>
 
+#include "pcb.h"
+
 int skernel(void);
-void init_system(void);
-void system_daemon(uint16_t pid);
+void init_system(PCB *pcb);
+void system_daemon(PCB *pcb, uint16_t pid);
 
 #endif	/* SKERNEL_H */
