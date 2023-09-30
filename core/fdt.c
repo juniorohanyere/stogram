@@ -4,28 +4,30 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "pcb.h"
-
-/* prototypes for functions in this file are in pcb.h */
+#include "fdt.h"
 
 /**
  * init_fdt - initializes the file descriptor table
  *
+ * @pcb: process control block
+ *
  * Description: ==>(OK; MALLOC_ERR)<==
  *
- * Return: return nothing
+ * Return: return fdt_t type on success
+ *	   return NULL on failure
 */
 
 FDT *init_fdt(PCB *pcb)
 {
-	FDT *fdt;
 	int i;
+	FDT *fdt;
 
 	fdt = malloc(sizeof(FDT) * FDT_SIZE);
 	if (fdt == NULL)
 	{
 		pcb->status = MALLOC_ERR;
-		return (fdt);
+
+		return (NULL);
 	}
 
 	/* index 0, 1, and 2 is reserved for stdin, stdout, and stderr */
@@ -36,12 +38,14 @@ FDT *init_fdt(PCB *pcb)
 		{
 			pcb->status = MALLOC_ERR;
 
-			return (fdt);
+			for (i = 0; fdt[i].filename != NULL; i++)
+				free(fdt[i].filename);
+			free(fdt);
+
+			return (NULL);
 		}
 	}
-
 	pcb->status = OK;
-
 	fdt[0].fd = STDIN_FILENO;
 	fdt[1].fd = STDOUT_FILENO;
 	fdt[2].fd = STDERR_FILENO;
@@ -50,9 +54,7 @@ FDT *init_fdt(PCB *pcb)
 	{
 		fdt[i].fd = 0;
 		fdt[i].modes = 0;
-
 		fdt[i].offset = 0;
-
 		fdt[i].filename = NULL;
 	}
 	return (fdt);
@@ -61,6 +63,7 @@ FDT *init_fdt(PCB *pcb)
 /**
  * open_file - generates a file decriptor for a given process id
  *
+ * @pcb: process control block
  * @pid: process id to generate a file descriptor for
  * @filename: the name of the file to open
  * @modes: the modes to open the file
@@ -109,18 +112,20 @@ uint16_t open_file(PCB *pcb, uint16_t pid, const char *filename, int modes)
 }
 
 /**
- * close_file - destroys the file descriptor number associated with an open
- *		file and closes the file
+ * clear_file - clears and destroys the file descriptor number associated with
+ *		an open file and closes the file. If the file is stdin, stdout,
+ *		or stderr, only clears the memory assigned
  *
+ * @pcb: process control block
  * @pid: the pid of the file descriptor to destroy
  * @fd: the file descriptor number of an open file (see open_file())
  *
- * Description: ==>(INV_FD)<==
+ * Description: ==>(OK, INV_FD)<==
  *
  * Return: return nothing
 */
 
-void close_file(PCB *pcb, uint16_t pid, uint16_t fd)
+void clear_file(PCB *pcb, uint16_t pid, uint16_t fd)
 {
 	if (fd < FDT_SIZE && pcb[pid].fdt[fd].filename != NULL)
 	{
@@ -132,4 +137,26 @@ void close_file(PCB *pcb, uint16_t pid, uint16_t fd)
 		return;
 	}
 	pcb->status = INV_FD;
+}
+
+/**
+ * destroy_fdt - function that frees memory allocated by all the file
+ *		 descriptors accociated with a process
+ *
+ * @pcb: process control block
+ * @pid: process id of the FDTs to free
+ *
+ * Return: return nothing
+*/
+
+void destroy_fdt(PCB *pcb, uint16_t pid)
+{
+	int i;
+
+	for (i = 0; i < FDT_SIZE; i++)
+	{
+		if (pcb[pid].fdt[i].filename != NULL)
+			free(pcb[pid].fdt[i].filename);
+	}
+	free(pcb[pid].fdt);
 }

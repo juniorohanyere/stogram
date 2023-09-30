@@ -2,11 +2,11 @@
 #define PCB_H
 
 #define PCB pcb_t
-#define PCB_SIZE (1024 * 10)
+#define PCB_SIZE (1024)
 
 #include <stdint.h>
 
-#include "fdt.h"
+#include "fdtp.h"
 #include "indicator.h"
 
 /**
@@ -40,9 +40,6 @@ typedef struct pcb_s
 
 void init_process(PCB *pcb);
 uint16_t create_process(PCB *pcb, uint16_t ppid, uint16_t prio, char *name);
-
-/* prototypes for functions in fdt.c */
-FDT *init_fdt(PCB *pcb);
-uint16_t open_file(PCB *pcb, uint16_t pid, const char *filename, int modes);
+void destroy_process(PCB *pcb, uint16_t pid);
 
 #endif	/* PCB_H */

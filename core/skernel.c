@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "pcb.h"
 #include "skernel.h"
 #include "indicator.h"
+#include "fdt.h"
 
 /**
  * skernel - entry point for the Stogram Kernel
@@ -15,11 +17,26 @@
  * Return: always return 0 for now
 */
 
-int main(void)
+int skernel(void)
 {
-	PCB *pcb = NULL;
+	int i;
+	PCB *pcb = calloc(sizeof(PCB), PCB_SIZE);
+
+	if (pcb == NULL)
+	{
+		/* malloc_error(); */
+		/* repeated beeping sound while on hang */
+		return (1);
+	}
 
 	init_system(pcb);
+
+	if (pcb->status == MALLOC_ERR)
+		return (1);
+
+	for (i = 0; i < PCB_SIZE; i++)
+		destroy_process(pcb, i);
+	free(pcb);
 
 	return (0);
 }
@@ -27,6 +44,8 @@ int main(void)
 /**
  * init_system - initializes the stogram chat system by setting up necessary
  *		 data structures and memory blocks
+ *
+ * @pcb: process control block
  *
  * Description: creates the first pid as 0, this pid serves as a place holder
  *		for all process that are going to be spawned directly or
@@ -62,6 +81,8 @@ void init_system(PCB *pcb)	/* swapper */
 
 /**
  * system_daemon - responsible for initiating services, targets, etc
+ *
+ * @pcb: process control block
  *
  * @ppid: the parent process id, this should be the pid 0
  *

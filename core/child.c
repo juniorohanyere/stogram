@@ -5,6 +5,7 @@
  * add_child - adds a process id to a list of process ids of a particular
  *	       process known as parent process id
  *
+ * @pcb: process control block
  * @ppid: the parent process id to add the child pid to
  * @pid: the child pid to add to the list of child pids for @ppid
  *
@@ -31,6 +32,7 @@ void add_child(PCB *pcb, uint16_t ppid, uint16_t pid)
  * delete_child - deletes the pid of a child process from the list of child
  *		  processes owned by a parent process
  *
+ * @pcb: process control block
  * @ppid: the parent process id
  * @pid: the child process id to delete from @ppid
  *
