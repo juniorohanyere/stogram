@@ -5,6 +5,7 @@
 #include "skernel.h"
 #include "indicator.h"
 #include "fdt.h"
+#include "child.h"
 
 /**
  * skernel - entry point for the Stogram Kernel
@@ -34,8 +35,13 @@ int skernel(void)
 	if (pcb->status == MALLOC_ERR)
 		return (1);
 
-	for (i = 0; i < PCB_SIZE; i++)
-		destroy_process(pcb, i);
+	/* destroy other pid first before ppid which is pid 0 */
+	for (i = 1; i < PCB_SIZE; i++)
+	{
+		if (pcb[i].state != TERMINATED)
+			destroy_process(pcb, 0, i);
+	}
+	destroy_process(pcb, 0, 0);
 	free(pcb);
 
 	return (0);
@@ -77,6 +83,8 @@ void init_system(PCB *pcb)	/* swapper */
 	}
 
 	system_daemon(pcb, bootd);
+	printf("bootd child pid => %d\n", pcb[bootd].children[0]);
+	printf("bootd child pid => %d\n", pcb[bootd].children[1]);
 }
 
 /**
@@ -91,10 +99,11 @@ void init_system(PCB *pcb)	/* swapper */
 
 void system_daemon(PCB *pcb, uint16_t ppid)
 {
-	uint16_t systemd;
+	uint16_t systemd, initd;
 
 	/* start systemd process, pid 1 is specially reserved for it */
 	systemd = create_process(pcb, ppid, 1, "systemd");
+	initd = create_process(pcb, ppid, 0, "initd");
 
 	/* initiate services, mounts, protocols, slices, etc */
 	/* init_presets(); */
@@ -113,4 +122,6 @@ void system_daemon(PCB *pcb, uint16_t ppid)
 	 * init_specials()
 	*/
 	pcb[systemd].state = IDLE;
+	delete_child(pcb, ppid, initd);
+	destroy_process(pcb, ppid, initd);
 }
