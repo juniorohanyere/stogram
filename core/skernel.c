@@ -38,7 +38,7 @@ int skernel(void)
 	/* destroy other pid first before ppid which is pid 0 */
 	for (i = 1; i < PCB_SIZE; i++)
 	{
-		if (pcb[i].state != TERMINATED)
+		if (pcb[i].state != DEAD)
 			destroy_process(pcb, 0, i);
 	}
 	destroy_process(pcb, 0, 0);

@@ -4,7 +4,7 @@
 
 - [x] Process Control Block (PCB)
 - [x] File Descriptor Table
-- [ ] Process State Transition
+- [x] Process State Transition
 - [ ] Stogram Services
 - [ ] Memory Allocation and Management
 - [ ] Stogram File System

@@ -29,24 +29,29 @@ typedef enum status_s
 /**
  * enum state_s - enum for process state
  *
- * @RUNNING: running state, meaning the process is still active
- * @IDLE: idle state
- * @SLEEPING: sleeping state
- * @BLOCKED: blocked state
- * @READY: ready state, meaning ready or queued for execution
- * @TERMINATED: process terminated
+ * @RUNNING: (R) running state, meaning the process is still active
+ * @SLEEPING: (S) interruptible sleep state
+ * @IDLE: (I) idle state
+ * @WAITING: (D) uninterruptible sleep state
+ * @STOPPED: (T) resumable stopped process
+ * @TRACED: (t) indicates that process is paused for debuggig
+ * @ZOMBIE: (Z) terminated process that has not yet been cleaned up by its
+ *	    parent process
+ * @DEAD: (X) completely terminated, not resumable
  *
  * Return: return nothing
 */
 
 typedef enum state_s
 {
-	RUNNING,
-	IDLE,
-	SLEEPING,
-	BLOCKED,
-	READY,
-	TERMINATED
+	RUNNING,	/* R */
+	SLEEPING,	/* S */
+	IDLE,		/* I */
+	WAITING,	/* D */
+	STOPPED,	/* T */
+	TRACED,		/* t */
+	ZOMBIE,		/* Z */
+	DEAD		/* X */
 } state_t;
 
 #endif	/* INDICATOR_H */
