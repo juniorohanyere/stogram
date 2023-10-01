@@ -64,27 +64,25 @@ The Stogram Chat System can have several common process states that describe the
 	- The process is currently executing or in a running state. It is actively using the CPU.
 
 2. **Sleeping (S)**:
-	- The process is waiting for an event to occur, such as I/O completion, a signal, or a timer. It is not actively using the CPU and is considered idle.
+	- The process is waiting for an event to occur, such as I/O completion, a signal, or a timer. It is not actively using the CPU and is considered interruptible
 
-3. **Waiting (D)**:
+3. **Idle (I)**:
+	- An "Idle" state typically means that a process is not actively using any resource and is waiting for some event or input. It is often associated with processes that are currently inactive and not performing any computation.
+	- Idle processes are usually in a state of readiness, meaning they are ready to execute as soon as they receive the necessary input or event. They are not consuming resources while in this state.
+
+4. **Waiting (D)**:
 	- The process is in an uninterruptible sleep state. It is waiting for a resource that is not immediately available, and it cannot be interrupted by signals. This state is typically associated with I/O operations that cannot be canceled.
 
-4. **Stopped (T)**:
+5. **Stopped (T)**:
 	- The process has been stopped, either by receiving a stop signal (e.g., SIGSTOP) or because it is being debugged. Stopped processes can be resumed later.
 
-5. **Zombie (Z)**:
-	- A zombie process is a terminated process that has not yet been cleaned up by its parent process. It exists in the process table but has completed its execution. Zombie processes are waiting for their parent process to acknowledge their termination.
-
-6. **Paging (W or Paging)**:
-	- The process is waiting for pages of its code or data to be brought into memory from secondary storage (e.g., swap space). This state is often seen when a process experiences a page fault.
-
-7. **Traced or Trace stopped (X)**:
+6. **Traced or Trace stopped (t)**:
 	- The process is being traced or debugged by another process, such as a debugger. This state indicates that the process is paused for debugging purposes.
 
-8. **Foreground (F)**:
-	- The process is running in the foreground and currently has control of the terminal. User interactions with the terminal are directed to this process.
+7. **Zombie (Z)**:
+	- A zombie process is a terminated process that has not yet been cleaned up by its parent process. It exists in the process table but has completed its execution. Zombie processes are waiting for their parent process to acknowledge their termination.
 
-9. **Background (B)**:
-	- The process is running in the background and is not currently controlling the terminal. Background processes typically do not receive user input directly.
+8. **Dead (X)**:
+	- Completely stopped, and can never be resumed as in the case of `Stopped (T)`.
 
 * Monitoring and managing process states are essential for understanding and troubleshooting system behavior and resource utilization.
