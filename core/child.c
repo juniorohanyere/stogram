@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "child.h"
 #include "pcb.h"
 
@@ -24,8 +26,12 @@ void add_child(PCB *pcb, uint16_t ppid, uint16_t pid)
 	for (i = 0; i < PCB_SIZE; i++)
 	{
 		if (pcb[ppid].children[i] == 0)
+		{
 			pcb[ppid].children[i] = pid;
+			return;
+		}
 	}
+	printf("to many processes\n");
 }
 
 /**
@@ -51,6 +57,9 @@ void delete_child(PCB *pcb, uint16_t ppid, uint16_t pid)
 	for (i = 0; i < PCB_SIZE; i++)
 	{
 		if (pcb[ppid].children[i] == pid)
+		{
 			pcb[ppid].children[i] = 0;
+			return;
+		}
 	}
 }
