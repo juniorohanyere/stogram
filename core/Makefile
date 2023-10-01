@@ -39,7 +39,7 @@ skernel.o: skernel.c fdt.h indicator.h pcb.h skernel.h
 .PHONY: clean clean-all test
 
 test: tests/test.c
-	@$(CC) $< $(TARGET) -L. -lskernel -o $(TEST)
+	@$(CC) $< $(TARGET) -g -L. -lskernel -o $(TEST)
 	@. tests/test.sh
 	@echo "\nOK"
 clean:
