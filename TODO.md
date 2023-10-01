@@ -5,10 +5,10 @@
 - [x] Process Control Block (PCB)
 - [x] File Descriptor Table
 - [ ] Process State Transition
+- [ ] Stogram Services
 - [ ] Memory Allocation and Management
 - [ ] Stogram File System
 - [ ] Stogram Window
 - [ ] Command Line Interface (CLI)
 - [ ] Shell (EggShell)
 - [ ] Stogram Protocols (Drivers)
-- [ ] Graphical User Interface (GUI)
