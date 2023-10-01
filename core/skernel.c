@@ -83,8 +83,6 @@ void init_system(PCB *pcb)	/* swapper */
 	}
 
 	system_daemon(pcb, bootd);
-	printf("bootd child pid => %d\n", pcb[bootd].children[0]);
-	printf("bootd child pid => %d\n", pcb[bootd].children[1]);
 }
 
 /**
@@ -99,11 +97,10 @@ void init_system(PCB *pcb)	/* swapper */
 
 void system_daemon(PCB *pcb, uint16_t ppid)
 {
-	uint16_t systemd, initd;
+	uint16_t systemd;
 
 	/* start systemd process, pid 1 is specially reserved for it */
 	systemd = create_process(pcb, ppid, 1, "systemd");
-	initd = create_process(pcb, ppid, 0, "initd");
 
 	/* initiate services, mounts, protocols, slices, etc */
 	/* init_presets(); */
@@ -122,6 +119,4 @@ void system_daemon(PCB *pcb, uint16_t ppid)
 	 * init_specials()
 	*/
 	pcb[systemd].state = IDLE;
-	delete_child(pcb, ppid, initd);
-	destroy_process(pcb, ppid, initd);
 }
