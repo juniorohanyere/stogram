@@ -1,4 +1,4 @@
-#include "../skernel.h"
+#include "test.h"
 
 int main(void)
 {
