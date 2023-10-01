@@ -102,15 +102,17 @@ uint16_t create_process(PCB *pcb, uint16_t ppid, uint16_t prio, char *name)
  * destroy_process - frees memory associated with a processes
  *
  * @pcb: process control block
+ * @ppid: parent process id of pid to destroy
  * @pid: the pid of the process to destroy
  *
  * Return: return nothing
 */
 
-void destroy_process(PCB *pcb, uint16_t pid)
+void destroy_process(PCB *pcb, uint16_t ppid, uint16_t pid)
 {
+	pcb[pid].state = TERMINATED;
 	free(pcb[pid].name);
-
+	delete_child(pcb, ppid, pid);
 	free(pcb[pid].children);
 	destroy_fdt(pcb, pid);
 }
