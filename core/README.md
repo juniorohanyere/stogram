@@ -55,3 +55,36 @@ Depending on the yet-to-be-identified application's architecture (components), t
 **Custom Channels:**
 
 Stogram may define custom channels or communication mechanisms that require file descriptors to manage. For example, if it uses a custom messaging protocol or a unique IPC mechanism, it would have corresponding entries in the file descriptor table.
+
+**Process State Transition**
+
+The Stogram Chat System can have several common process states that describe the current status and execution state of a particular process. These process states are typically represented by a combination of one or more letters.
+
+1. **Running (R)**:
+	- The process is currently executing or in a running state. It is actively using the CPU.
+
+2. **Sleeping (S)**:
+	- The process is waiting for an event to occur, such as I/O completion, a signal, or a timer. It is not actively using the CPU and is considered idle.
+
+3. **Waiting (D)**:
+	- The process is in an uninterruptible sleep state. It is waiting for a resource that is not immediately available, and it cannot be interrupted by signals. This state is typically associated with I/O operations that cannot be canceled.
+
+4. **Stopped (T)**:
+	- The process has been stopped, either by receiving a stop signal (e.g., SIGSTOP) or because it is being debugged. Stopped processes can be resumed later.
+
+5. **Zombie (Z)**:
+	- A zombie process is a terminated process that has not yet been cleaned up by its parent process. It exists in the process table but has completed its execution. Zombie processes are waiting for their parent process to acknowledge their termination.
+
+6. **Paging (W or Paging)**:
+	- The process is waiting for pages of its code or data to be brought into memory from secondary storage (e.g., swap space). This state is often seen when a process experiences a page fault.
+
+7. **Traced or Trace stopped (X)**:
+	- The process is being traced or debugged by another process, such as a debugger. This state indicates that the process is paused for debugging purposes.
+
+8. **Foreground (F)**:
+	- The process is running in the foreground and currently has control of the terminal. User interactions with the terminal are directed to this process.
+
+9. **Background (B)**:
+	- The process is running in the background and is not currently controlling the terminal. Background processes typically do not receive user input directly.
+
+* Monitoring and managing process states are essential for understanding and troubleshooting system behavior and resource utilization.
