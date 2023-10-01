@@ -6,15 +6,23 @@
 CC = gcc
 
 # the c compiler flags
-CFLAGS = -I../core -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
-	 -Werror -Wextra
+CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
+	 -Wextra
+
+# library flags
+LFLAGS = -shared -fPIC
 
 # object files
 OBJS = child.o fdt.o pcb.o skernel.o
 
-TARGET = skernel
+TEST = tests/test
 
-all: $(OBJS)
+TARGET = libskernel.so
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(LFLAGS) $^ -o $@
 
 child.o: child.c child.h pcb.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -31,13 +39,11 @@ skernel.o: skernel.c fdt.h indicator.h pcb.h skernel.h
 .PHONY: clean clean-all test
 
 test: tests/test.c
-	@$(CC) $< $(OBJS) -o $@
-	@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all \
-	./$@
-	@./$@
+	@$(CC) $< $(TARGET) -L. -lskernel -o $(TEST)
+	@. tests/test.sh
 	@echo "\nOK"
 clean:
 	@-rm -f $(OBJS)
 
 clean-all:
-	@-rm -f *.o $(TARGET)
+	@-rm -f *.o $(TARGET) $(TEST)
