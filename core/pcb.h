@@ -40,6 +40,6 @@ typedef struct pcb_s
 
 void init_process(PCB *pcb);
 uint16_t create_process(PCB *pcb, uint16_t ppid, uint16_t prio, char *name);
-void destroy_process(PCB *pcb, uint16_t pid);
+void destroy_process(PCB *pcb, uint16_t ppid, uint16_t pid);
 
 #endif	/* PCB_H */
