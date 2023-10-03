@@ -1,7 +1,7 @@
 # The Stogram Chat System
 
 
-> Stogram is an open source project managed by [Junior Ohanyere](https://github.com/juniorohanyere) and [team](#), distributed under the [`GPL-3.0 license`](#LICENSE) terms and conditions.
+> Stogram is an open source project managed by [Junior Ohanyere](https://github.com/juniorohanyere) and [team](#), distributed under the [`GPL-3.0 license`](LICENSE) terms and conditions.
 
 **Stogram** is a versatile chat system designed to facilitate seamless communication between users across a wide range of operating systems. This robust chat system combines the simplicity of a command-line interface with the emulation of a unix-like shell, and also the friendliness of a graphical user interface, offering a unique and efficient way to interact with fellow users.
 
