@@ -24,7 +24,7 @@ class TTY(tk.Text):
         """
 
         tk.Text.__init__(self, master, **kwargs)
-        self.insert('1.0', '(slauncher) ') # first prompt
+        self.insert('1.0', '(slauncher) ')  # first prompt
 
         # create input mark/offset
         self.mark_set('input', 'insert')
@@ -37,7 +37,6 @@ class TTY(tk.Text):
 
         # binding the widget to 'enter' key
         self.bind("<Return>", self.enter)
-
 
     def _tty(self, *args):
         """private module.
@@ -57,7 +56,7 @@ class TTY(tk.Text):
         elif args[0] == "delete":
             if self.compare(largs[1], '<', 'input'):
                 if len(largs) == 2:
-                    return # don't delete anything
+                    return  # don't delete anything
                 largs[1] = 'input'  # move deletion, start at 'input'
 
         result = self.tk.call((self._orig,) + tuple(largs))
@@ -80,7 +79,7 @@ class TTY(tk.Text):
 
         # move input mark
         self.mark_set('input', 'insert')
-        return "break" # don't execute class method that inserts a newline
+        return "break"  # don't execute class method that inserts a newline
 
     def scroll_to_bottom(self):
         """scrolls the text widget to the bottom
@@ -89,11 +88,13 @@ class TTY(tk.Text):
         lines = self.index("end-1c").split('.')[0]
         self.yview_scroll(lines, "units")
 
+
 win = tk.Tk()
 win.title("Stogram")
 win.config(bg="black")
 
-tty = TTY(win, bg='black', fg='white', insertbackground='white', bd=0, highlightthickness=0)
+tty = TTY(win, bg='black', fg='white', insertbackground='white', bd=0,
+          highlightthickness=0)
 tty.focus_set()
 tty.pack(pady=4, padx=4, fill=tk.BOTH, expand=True)
 
