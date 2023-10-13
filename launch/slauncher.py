@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """the stogram launcher module
 launches the stogram window and resposible for mounting storage device (if
 not mounted). Then mounts the root file system (if found). If no compatible

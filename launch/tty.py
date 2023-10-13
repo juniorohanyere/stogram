@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """teleyping module
 """
 
@@ -33,8 +33,9 @@ class TTY(tk.Text):
         self.tk.call("rename", self._w, self._orig)
         self.tk.createcommand(self._w, self._tty)
 
-        # binding the widget to 'enter' key
-        self.bind("<KeyPress>", self.enter)
+        # binding the widget to specific keys
+        self.bind("<KeyPress>", self.key_press)
+        self.bind("<Control-KeyPress>", self.control_key)
 
     def _tty(self, *args):
         """private module.
