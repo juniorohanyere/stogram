@@ -21,8 +21,11 @@ class TTY(tk.Text):
             kwargs: keyworded variable length list of arguments
         """
 
+        # prompt to use
+        self._prompt = ('(slauncher) ')
+
         tk.Text.__init__(self, master, **kwargs)
-        self.insert('1.0', '(slauncher) ')  # first prompt
+        self.insert('1.0', self._prompt)  # first prompt
 
         # create input mark/offset
         self.mark_set('input', 'insert')

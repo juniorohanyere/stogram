@@ -14,8 +14,6 @@ class Shell(TTY):
         TTY (tty): teletyping class
     """
 
-    _prompt = '(slauncher) '
-
     def key_press(self, event):
         """
         handles the enter key event
@@ -26,40 +24,62 @@ class Shell(TTY):
 
         if (event.keysym == "Return"):
             line = self.get('input', 'end')
-            # self.insert('end', '\nDEBUG')
             args = line.split()
 
-            if len(args) == 1:
+            self.insert('end', '\n')
+
+            # scroll to bottom before calling update
+            self.scroll_to_bottom()
+
+            # call update to reflect changes immediately
+            self.update()
+
+            if len(args) == 0:
+                line = ''
+
+            elif len(args) == 1:
                 if args[0] == "clear":
                     self.clear_screen()
+
                     return "break"  # remove newline
+
                 elif args[0] == "list":
-                    ld = subprocess.run("sudo lshw -class disk", shell=True,
-                                        text=True, stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE)
-                    line = ld.stdout
-                    a = line.split("\n")
+                    listd = subprocess.run("sudo lshw -class disk", shell=True,
+                                           text=True, stdout=subprocess.PIPE,
+                                           stderr=subprocess.PIPE)
+                    line = listd.stdout
+                    result = line.split("\n")
+
                     # print result bit by bit
-                    for b in a:
+                    for i in range(len(result)):
                         self.scroll_to_bottom()
-                        self.insert('end', '\n' + b)
+                        if i == 0:
+                            self.insert('end', result[i])
+                        else:
+                            self.insert('end', '\n' + result[i])
                     line = ''
+
+                else:
+                    line = "invalid instruction: type help for more info\n"
+
+            else:
+                line = "invalid instruction: type help for more info\n"
+
             # display result and next prompt
             self.scroll_to_bottom()
-            if line == '':
-                self.insert('end', self._prompt)
-            else:
-                self.insert('end', '\n' + line + self._prompt)
+            self.insert('end', line + self._prompt)
 
             # move input mark
             self.mark_set('input', 'insert')
+
             return "break"  # don't execute class method that inserts a newline
 
     def control_key(self, event):
         """handles key combination with the ctrl key (CTRL + [Regular Key])
         """
+
         if event.keysym == "d" and int(self.index("insert").split('.')[1]) == \
-                len(self._prompt):
+                len(self._prompt):  # don't exit if not beginning of prompt
             sys.exit()
 
     def scroll_to_bottom(self):
