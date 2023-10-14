@@ -4,6 +4,8 @@
 
 import sys
 import subprocess
+import platform
+
 from tty import TTY
 
 
@@ -44,19 +46,34 @@ class Shell(TTY):
                     return "break"  # remove newline
 
                 elif args[0] == "list":
-                    listd = subprocess.run("sudo lshw -class disk", shell=True,
-                                           text=True, stdout=subprocess.PIPE,
-                                           stderr=subprocess.PIPE)
-                    line = listd.stdout
-                    result = line.split("\n")
+                    # platform compatibility
+                    system = platform.system()
+
+                    if system == "Linux":
+                        device = subprocess.run("sudo lshw -class disk",
+                                                shell=True, text=True,
+                                                stdout=subprocess.PIPE,
+                                                stderr=subprocess.PIPE)
+                    elif system == "Windows":
+                        device = "instruction not yet supported on Windows"
+
+                    elif system == "Darwin":
+                        device = "instruction not yet supported on Macintosh"
+
+                    else:
+                        device = "unknown device: please report any bug at \
+                            https://github.com/juniorohanyere/stogram.git"
+
+                    line = device.stdout
+                    devices = line.split("\n")
 
                     # print result bit by bit
-                    for i in range(len(result)):
+                    for i in range(len(devices)):
                         self.scroll_to_bottom()
                         if i == 0:
-                            self.insert('end', result[i])
+                            self.insert('end', devices[i])
                         else:
-                            self.insert('end', '\n' + result[i])
+                            self.insert('end', '\n' + devices[i])
                     line = ''
 
                 else:
