@@ -19,7 +19,7 @@ def handle_linux_event():
             media_dir = hm_dir + "/.media/"     # media directory
 
             dev_name = dev.device_node
-            password = "maduabuchi"
+            password = ""   # set this to your device password for testing
             dev_id = subprocess.run(f'echo "{password}" | sudo -S lsblk \
                                         {dev_name} -fsn -o UUID',
                         shell=True, text=True, stdout=subprocess.PIPE,
