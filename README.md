@@ -17,7 +17,7 @@ Stogram uses a dedicated virtual machine called Stogram Virtual Machine `STGVM` 
 
 Within the **STGVM** is the Stogram Virtual Envrionment `STGVE` standing as the core of stogram. The STGVE will be installed onto an external storage device, which is the called by the STGVM from here, ensuring every user has a separate stogram envrionment.
 
-Within the **STGVM** resides the user's chat system (stogram file system). Hence during installation, the stogram chat system image `stogram.img` has to be copied onto the external storage device to be used. Rebooting the system or reinserting the storage medium that now has the stogram.img, will effect a window, effected by **STGVM** which is responsible for monitoring such events. STGVM will recognise the image, and attempt to install the **STGVE** on the device. Thus the device has to be formatted into a file format stogram understands, `STGFS`.
+Within the **STGVM** resides the user's chat system (stogram file system). Hence during installation, the stogram chat system image `STGIMG` has to be copied onto the external storage device to be used. Rebooting the system or reinserting the storage medium that now has the STGIMG, will effect a window, effected by **STGVM** which is responsible for monitoring such events. STGVM will recognise the image, and attempt to install the **STGVE** on the device. Thus the device has to be formatted into a file format stogram understands, `STGFS`.
 
 After successful installation, the stogram chat device is set to restart for complete initialization.
 >> And there you go, you now own a Stogram Chat System, contolling your own data!
