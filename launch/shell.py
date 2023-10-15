@@ -36,10 +36,12 @@ class Shell(TTY):
             # call update to reflect changes immediately
             self.update()
 
-            if len(args) == 0:
+            argc = len(args)
+
+            if argc == 0:
                 line = ''
 
-            elif len(args) == 1:
+            elif argc == 1:
                 if args[0] == "clear":
                     self.clear_screen()
 
@@ -48,12 +50,14 @@ class Shell(TTY):
                 elif args[0] == "list":
                     # platform compatibility
                     system = platform.system()
+                    device_node = sys.argv[1]
 
                     if system == "Linux":
-                        device = subprocess.run("sudo lshw -class disk",
+                        device = subprocess.run(f'lsblk -Sn {device_node}',
                                                 shell=True, text=True,
                                                 stdout=subprocess.PIPE,
                                                 stderr=subprocess.PIPE)
+
                     elif system == "Windows":
                         device = "instruction not yet supported on Windows"
 
@@ -75,6 +79,9 @@ class Shell(TTY):
                         else:
                             self.insert('end', '\n' + devices[i])
                     line = ''
+
+                elif args[0] == "exit":
+                    sys.exit()
 
                 else:
                     line = "invalid instruction: type help for more info\n"
