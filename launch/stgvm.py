@@ -20,9 +20,13 @@ def handle_linux_event():
 
             dev_name = dev.device_node
             password = "maduabuchi"   # set this to your device password for testing
+            label = subprocess.run(f'echo "{password}" | sudo -S lsblk \
+                                        {dev_name} -fsn -o UUID',
+                        shell=True, text=True, stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE)
 
-            # mount point
-            mnt_point = media_dir + "stogram"	# ~/.media/stogram
+            # ~/.media/<volume label>
+            mnt_point = media_dir + label.stdout.strip()        # mount point
 
             subprocess.Popen(['mkdir', '-p', mnt_point])
 
@@ -35,11 +39,13 @@ def handle_linux_event():
 
         # handle the removal of the external storage device
         if dev.action == 'remove':
+            print("cleaning up...")
+            device.send_signal(signal.SIGTERM)
             subprocess.run(f'echo "{password}" | sudo -S umount {dev_name}',
                            shell=True, text=True, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
-
-            device.send_signal(signal.SIGTERM)
+            subprocess.Popen(f'echo "{password}" | sudo -S rmdir {mnt_point} \
+                             {media_dir}/*', shell=True)
 
 def handle_windows_event():
     import win32file
