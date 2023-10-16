@@ -50,10 +50,10 @@ class Shell(TTY):
                 elif args[0] == "list":
                     # platform compatibility
                     system = platform.system()
-                    device_node = sys.argv[1]
+                    dev_name = sys.argv[1]
 
                     if system == "Linux":
-                        device = subprocess.run(f'lsblk -Sn {device_node}',
+                        device = subprocess.run(f'lsblk -Sn {dev_name}',
                                                 shell=True, text=True,
                                                 stdout=subprocess.PIPE,
                                                 stderr=subprocess.PIPE)
