@@ -19,14 +19,10 @@ def handle_linux_event():
             media_dir = hm_dir + "/.media/"     # media directory
 
             dev_name = dev.device_node
-            password = ""   # set this to your device password for testing
-            dev_id = subprocess.run(f'echo "{password}" | sudo -S lsblk \
-                                        {dev_name} -fsn -o UUID',
-                        shell=True, text=True, stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
+            password = "maduabuchi"   # set this to your device password for testing
 
             # mount point
-            mnt_point = media_dir + dev_id.stdout.strip()  # ~/.media/dev_id
+            mnt_point = media_dir + "stogram"	# ~/.media/stogram
 
             subprocess.Popen(['mkdir', '-p', mnt_point])
 
