@@ -8,6 +8,7 @@ file system is found, attempts to install stogram on the device
 import tkinter as tk
 from shell import Shell
 
+
 """
 def handle_exit_signal(signum, frame):
     print("Received exit signal. Performing cleanup...")
@@ -21,10 +22,10 @@ def main():
     launcher.title("Stogram")
     launcher.config(bg="black")
 
-    tty = Shell(launcher, bg='black', fg='white', insertbackground='white', bd=0,
+    sh = Shell(launcher, bg='black', fg='white', insertbackground='white', bd=0,
                 highlightthickness=0)
-    tty.focus_set()
-    tty.pack(pady=4, padx=4, fill=tk.BOTH, expand=True)
+    sh.focus_set()
+    sh.pack(pady=4, padx=4, fill=tk.BOTH, expand=True)
 
     launcher.mainloop()
 

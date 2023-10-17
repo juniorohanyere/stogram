@@ -10,29 +10,21 @@ from tty import TTY
 
 
 class Shell(TTY):
-    def wizard(self):
-        """private module that displays a welcome message for the stogram
-        installation wizard
-        """
-
-        self.insert('1.0', 'Stogram Installation Wizard\n')
-
-    def mount_info(self):
-        """private module that displays the mount information of detected
-        external storage
-        """
-
-        self.insert('end', f'mount {self.dev_attrs["TYPE"]}: {self.dev_attrs["NAME"]}\n')
-        self.insert('end', f'mount point: {sys.argv[1]}')
-
-        self.after(6000, self.clear_screen)
-        self.after(6000, self.wizard)
-
     """interactive shell for navigating the slauncher
 
     Args:
         TTY (tty): teletyping class
     """
+
+    def __init__(self, master=None, **kwargs):
+        """instatiation method
+
+        Args:
+            master (placeholder): text widget
+            kwargs (list): variable length keyworded arguments
+        """
+
+        super().__init__(master, **kwargs)
 
     def key_press(self, event):
         """
@@ -139,3 +131,44 @@ class Shell(TTY):
         self.delete("1.0", "end")
         self.insert('1.0', self._prompt)
         self.mark_set("input", "insert")
+
+
+class Wizard:
+    def __init__(self, master=None, **kwargs):
+        """instatiation method
+        """
+
+        self.master = master
+
+    def wizard(self):
+        """private module that displays a welcome message for the stogram
+        installation wizard.
+        """
+
+        self.master.insert('1.0', 'Stogram Installation Wizard\n')
+        self.master.scroll_to_bottom()
+        self.master.insert('end', 'device info\n')
+        self.master.scroll_to_bottom()
+
+        for key, value in self.master.dev_attrs.items():
+            self.master.insert('end', "{}: {}\n".format(key, value))
+            self.master.scroll_to_bottom()
+
+        self.master.insert('end', "Proceed to installation? (y/n): ")
+        self.master.scroll_to_bottom()
+
+        self.master.mark_set('input', 'insert')
+
+        return "break"
+
+    def handle_check(self):
+        """Private method that displays the mount information of detected
+        external storage. Waits for the system to perform self test. Not until
+        after all dependecies and targets have been met, this method is never
+        called. Thus, whilst the self test performance, the stogram logo is
+        displayed
+        """
+
+        # expects targets and dependency checks here instead of a timer
+        self.master.after(6000, self.master.clear_screen)
+        self.master.after(6000, self.wizard)

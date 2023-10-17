@@ -14,7 +14,7 @@ class TTY(tk.Text):
         tk.Text (obj): text widget
     """
 
-    def __init__(self, master=None, **kwargs):
+    def __init__(self, wizard, master=None, **kwargs):
         """instantiation module.
         creates input offset, tty, and binds the text widget to 'enter' key
 
@@ -23,19 +23,22 @@ class TTY(tk.Text):
             kwargs: keyworded variable length list of arguments
         """
 
+        tk.Text.__init__(self, wizard, master, **kwargs)
+
         # prompt to use
         self._prompt = ('(stg) ')
 
         attrs = sys.argv[2]
         self.dev_attrs = json.loads(attrs)
 
-        tk.Text.__init__(self, master, **kwargs)
-        # self.insert('1.0', self._prompt)
-        self.mount_info()
-
         # create input mark/offset
         self.mark_set('input', 'insert')
         self.mark_gravity('input', 'left')
+
+        # self.insert('1.0', self._prompt)
+        from shell import Wizard
+        self.wizard = Wizard(master=self)
+        self.wizard.handle_check()
 
         # create proxy/tty
         self._orig = self._w + "_orig"
@@ -45,6 +48,7 @@ class TTY(tk.Text):
         # binding the widget to specific keys
         self.bind("<KeyPress>", self.key_press)
         self.bind("<Control-KeyPress>", self.control_key)
+
 
     def _tty(self, *args):
         """private module.
