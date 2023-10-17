@@ -41,6 +41,7 @@ EOF
 
     sudo systemctl enable stgvm
     sudo systemctl start stgvm
+    sudo systemctl restart stgvm
 }
 
 linux_install
