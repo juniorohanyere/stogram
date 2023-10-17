@@ -27,14 +27,21 @@ def handle_linux_event():
     monitor = pyudev.Monitor.from_netlink(context)
     monitor.filter_by(subsystem='block', device_type=None)
 
+    user = os.environ.get("SUDO_USER", None)
+
+    hm_dir = os.path.expanduser(f"~{user}")    # home directory
+    media_dir = hm_dir + "/.media/"     # media directory
+
+    # once underlying OS boots up, delete any empty that was impossible to
+    # delete due to some failures or errors (device or resource in use)
+    try:
+        os.rmdir('{media_dir}/*')
+    except FileNotFoundError:
+        pass
+
     for dev in iter(monitor.poll, None):
         # handle the insertion of the external storage device
         if dev.action == 'add':
-            user = os.environ.get("SUDO_USER", None)
-
-            hm_dir = os.path.expanduser(f"~{user}")    # home directory
-            media_dir = hm_dir + "/.media/"     # media directory
-
             dev_name = dev.device_node
 
             info = subprocess.run(f'sudo lsblk -npOP {dev_name}',
@@ -63,7 +70,10 @@ def handle_linux_event():
             device.send_signal(signal.SIGTERM)
             subprocess.run(f'sudo umount {dev_name}', shell=True, text=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            os.rmdir('{media_dir}/*')
+            try:
+                os.rmdir('{media_dir}/*')
+            except FileNotFoundError:
+                pass
 
 def handle_windows_event():
     import win32file
