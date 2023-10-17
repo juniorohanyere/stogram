@@ -10,6 +10,24 @@ from tty import TTY
 
 
 class Shell(TTY):
+    def wizard(self):
+        """private module that displays a welcome message for the stogram
+        installation wizard
+        """
+
+        self.insert('1.0', 'Stogram Installation Wizard\n')
+
+    def mount_info(self):
+        """private module that displays the mount information of detected
+        external storage
+        """
+
+        self.insert('end', f'mount {self.dev_attrs["TYPE"]}: {self.dev_attrs["NAME"]}\n')
+        self.insert('end', f'mount point: {sys.argv[1]}')
+
+        self.after(6000, self.clear_screen)
+        self.after(6000, self.wizard)
+
     """interactive shell for navigating the slauncher
 
     Args:
@@ -50,7 +68,7 @@ class Shell(TTY):
                 elif args[0] == "list":
                     # platform compatibility
                     system = platform.system()
-                    dev_name = sys.argv[1]
+                    dev_name = self.dev_attrs["NAME"]
 
                     if system == "Linux":
                         device = subprocess.run(f'lsblk -Sn {dev_name}',

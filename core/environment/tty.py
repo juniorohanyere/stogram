@@ -3,7 +3,9 @@
 """
 
 import tkinter as tk
-
+import json
+import time
+import sys
 
 class TTY(tk.Text):
     """handles teletyping
@@ -22,10 +24,14 @@ class TTY(tk.Text):
         """
 
         # prompt to use
-        self._prompt = ('(slauncher) ')
+        self._prompt = ('(stg) ')
+
+        attrs = sys.argv[2]
+        self.dev_attrs = json.loads(attrs)
 
         tk.Text.__init__(self, master, **kwargs)
-        self.insert('1.0', self._prompt)  # first prompt
+        # self.insert('1.0', self._prompt)
+        self.mount_info()
 
         # create input mark/offset
         self.mark_set('input', 'insert')
