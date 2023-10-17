@@ -63,8 +63,7 @@ def handle_linux_event():
             device.send_signal(signal.SIGTERM)
             subprocess.run(f'sudo umount {dev_name}', shell=True, text=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            subprocess.Popen(['sudo', 'rmdir', '--ignore-fail-on-non-empty',
-                             mnt_point])
+            subprocess.Popen(['sudo', 'rmdir', f'{media_dir}/*'])
 
 
 def handle_windows_event():
