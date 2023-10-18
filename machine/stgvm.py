@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""the stogram virtual machine module
+"""
 
 import os
 import subprocess
@@ -8,6 +10,14 @@ import json
 
 
 def device_info(data=None):
+    """reads device info from the data parameter, and converts the it to a
+    dictionary as the info is in a string format
+
+    Bugs:
+        the converted dictionary is known to be buggy, hence, the info
+        generated from this method should not be relied upon
+    """
+
     # Split the data by spaces and then by "=" to extract key-value pairs
     pairs = [pair.split('=') if '=' in pair else (pair, None)
              for pair in data.split()]
@@ -21,6 +31,9 @@ def device_info(data=None):
 
 
 def handle_linux_event():
+    """method for listening on external storage insertion and removal on linux
+    """
+
     import pyudev
 
     context = pyudev.Context()
@@ -49,8 +62,10 @@ def handle_linux_event():
                                   stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE)
 
+            # convert to dictionary
             dev_info = device_info(info.stdout)
 
+            # deserialize the dictionary
             dev_attrs = json.dumps(dev_info)
 
             # ~/.media/<volume id>
@@ -83,6 +98,10 @@ def handle_linux_event():
 
 
 def handle_windows_event():
+    """ method for listening on external storge insertion and removal on
+    windows
+    """
+
     import win32file
     import win32con
 
