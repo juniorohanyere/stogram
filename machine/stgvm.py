@@ -67,13 +67,20 @@ def handle_linux_event():
         # handle the removal of the external storage device
         if dev.action == 'remove':
             # clean up
-            device.send_signal(signal.SIGTERM)
-            subprocess.run(f'sudo umount {dev_name}', shell=True, text=True,
-                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            try:
+                device.send_signal(signal.SIGTERM)
+                subprocess.run(f'sudo umount {dev_name}', shell=True,
+                               text=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+            except UnboundLocalError:
+                pass
+
             try:
                 os.rmdir('{media_dir}/*')
             except FileNotFoundError:
                 pass
+
 
 def handle_windows_event():
     import win32file
