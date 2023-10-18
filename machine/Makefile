@@ -17,19 +17,19 @@ all: $(TARGET)
 
 # copy source file to bin path and rename
 $(TARGET): $(SRC) $(UNIT) $(SUDOERS)
-	@sudo mkdir -p $(BIN_PATH)
-	@sudo cp $< $(BIN_PATH)/$@
-	@sudo systemctl daemon-reload
-	@sudo systemctl enable $@
-	@sudo systemctl start $@
-	@sudo systemctl restart $@
+	@mkdir -p $(BIN_PATH)
+	@cp $< $(BIN_PATH)/$@
+	@systemctl daemon-reload
+	@systemctl enable $@
+	@systemctl start $@
+	@systemctl restart $@
 
 # create the stgvm service unit
 $(UNIT): unit.sh
 	@./$<
-	@sudo mv ./stgvm.service $@
+	@mv ./stgvm.service $@
 
 $(SUDOERS): sudoers.sh
-	@sudo echo $(shell ./sudoers.sh) > $@
-	@sudo chmod 0440 $@
-	@sudo visudo -cq
+	@echo $(shell ./sudoers.sh) > $@
+	@chmod 0440 $@
+	@visudo -cq
