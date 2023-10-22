@@ -28,7 +28,7 @@ class TTY(tk.Text):
         # prompt to use
         self._prompt = ('(stg) ')
 
-        attrs = sys.argv[2]
+        attrs = sys.argv[1]
         self.dev_attrs = json.loads(attrs)
 
         # create input mark/offset
@@ -36,7 +36,7 @@ class TTY(tk.Text):
         self.mark_gravity('input', 'left')
 
         # self.insert('1.0', self._prompt)
-        from shell import Wizard
+        from kernel.environment.shell import Wizard
         self.wizard = Wizard(master=self)
         self.wizard.handle_check()
 

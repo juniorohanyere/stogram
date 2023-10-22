@@ -6,7 +6,7 @@ import sys
 import subprocess
 import platform
 
-from tty import TTY
+from kernel.environment.tty import TTY
 
 
 class Shell(TTY):
@@ -162,7 +162,7 @@ class Wizard:
         return "break"
 
     def handle_check(self):
-        """Private method that displays the mount information of detected
+        """method that displays the mount information of detected
         external storage. Waits for the system to perform self test. Not until
         after all dependecies and targets have been met, this method is never
         called. Thus, whilst the self test performance, the stogram logo is
@@ -170,5 +170,5 @@ class Wizard:
         """
 
         # expects targets and dependency checks here instead of a timer
-        self.master.after(6000, self.master.clear_screen)
-        self.master.after(6000, self.wizard)
+        self.master.clear_screen()
+        self.wizard()
