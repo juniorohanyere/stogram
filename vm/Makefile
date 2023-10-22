@@ -10,26 +10,26 @@ SRC=stgvm.py
 
 UNIT=$(shell pkg-config systemd --variable=systemdsystemunitdir)/stgvm.service
 
-TARGET=stgvm
+TARGET=$(BIN_PATH)/stgvm
 
 all: $(TARGET)
 
 
 # copy source file to bin path and rename
 $(TARGET): $(SRC) $(UNIT) $(SUDOERS)
-	@mkdir -p $(BIN_PATH)
-	@cp $< $(BIN_PATH)/$@
-	@systemctl daemon-reload
-	@systemctl enable $@
-	@systemctl start $@
-	@systemctl restart $@
+	mkdir -p $(BIN_PATH)
+	cp $< $@
+	systemctl daemon-reload
+	systemctl enable stgvm
+	systemctl start stgvm
+	systemctl restart stgvm
 
 # create the stgvm service unit
 $(UNIT): unit.sh
-	@./$<
-	@mv ./stgvm.service $@
+	./$<
+	mv ./stgvm.service $@
 
 $(SUDOERS): sudoers.sh
-	@echo $(shell ./sudoers.sh) > $@
-	@chmod 0440 $@
-	@visudo -cq
+	echo $(shell ./sudoers.sh) > $@
+	chmod 0440 $@
+	visudo -c

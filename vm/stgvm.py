@@ -10,21 +10,26 @@ import json
 
 
 def device_info(data=None):
-    """reads device info from the data parameter, and converts the it to a
+    """reads device info from the data parameter, and converts it into a
     dictionary as the info is in a string format
-
-    Bugs:
-        the converted dictionary is known to be buggy, hence, the info
-        generated from this method should not be relied upon
     """
 
-    # Split the data by spaces and then by "=" to extract key-value pairs
-    pairs = [pair.split('=') if '=' in pair else (pair, None)
-             for pair in data.split()]
+    info = {}   # initialize with empty dictionary
+    strip_info = data.strip('"\n')  # strip off the trailing (") and newline
+    split_info = strip_info.split('" ')     # strip (" ) first
 
-    # Create a dictionary from the key-value pairs
-    info = {key: value.strip('"') if value is not None else None for key,
-            value in pairs}
+    for data in split_info:
+        ldata = data.split('="', 1)     # split once
+        if len(ldata) < 2:  # the info has some exceptions
+            if ldata[0].endswith('='):
+                key = ldata[0].strip('=')
+            elif ldata[0].startswith(' '):
+                value = ldata[0]
+                info.update([(key, value)])
+        else:
+            key = ldata[0]
+            value = ldata[1]
+            info.update([(key, value)])
 
     # return the resulting dictionary
     return (info)
@@ -57,25 +62,29 @@ def handle_linux_event():
         if dev.action == 'add':
             dev_name = dev.device_node
 
-            info = subprocess.run(f'sudo lsblk -npOP {dev_name}',
-                                  shell=True, text=True,
-                                  stdout=subprocess.PIPE,
-                                  stderr=subprocess.PIPE)
-
-            # convert to dictionary
-            dev_info = device_info(info.stdout)
-
-            # deserialize the dictionary
-            dev_attrs = json.dumps(dev_info)
+            get_vol_id = subprocess.run(f'sudo lsblk -nop UUID {dev_name}',
+                                        shell=True, text=True,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE)
+            vol_id = get_vol_id.stdout
 
             # ~/.media/<volume id>
-            mnt_point = media_dir + dev_info["UUID"]     # mount point
+            mnt_point = media_dir + vol_id     # mount point
 
             subprocess.Popen(['mkdir', '-p', mnt_point])
 
             subprocess.run(f'sudo mount {dev_name} {mnt_point}', shell=True,
                            text=True, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE)
+
+            info = subprocess.run(f'sudo lsblk -npOP {dev_name}', shell=True,
+                                  text=True, stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE)
+
+            dev_info = device_info(info.stdout)
+
+            dev_attrs = json.dumps(dev_info)
+
             device = subprocess.Popen([f'{mnt_point}/slauncher.py', dev_attrs],
                                       user=user)
 
