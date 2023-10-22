@@ -2,8 +2,10 @@
 
 > The list is arranged in order of preference. It is important, but not necessary, that this order be followed
 
-- [ ] Stogram Virtual Machine (STGVM)
-- [ ] Stogram Virtual Environment (STGVE)
-- [ ] Stogram Installation
-- [ ] Unit Tests
+- [x] Virtual Machine (smachine)
+- [ ] Bootloader (sboot)
+- [ ] Kernel (skernel)
+- [ ] Installer Image (stogram)
+- [ ] Installation
+- [ ] Test suites
 - [ ] Documentations (README)
