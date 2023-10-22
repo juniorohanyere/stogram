@@ -1,16 +1,16 @@
-# makefile for building the CORE and STGVM for the Stogram Chat System
+# makefile for building the CORE and SMachine for the Stogram Chat System
 
 BIN_PATH=/usr/bin
 
 SUDOERS_PATH=/etc/sudoers.d
 
-SUDOERS=$(SUDOERS_PATH)/stgvm
+SUDOERS=$(SUDOERS_PATH)/smachine
 
-SRC=stgvm.py
+SRC=smachine.py
 
-UNIT=$(shell pkg-config systemd --variable=systemdsystemunitdir)/stgvm.service
+UNIT=$(shell pkg-config systemd --variable=systemdsystemunitdir)/smachine.service
 
-TARGET=$(BIN_PATH)/stgvm
+TARGET=$(BIN_PATH)/smachine
 
 all: $(TARGET)
 
@@ -20,14 +20,14 @@ $(TARGET): $(SRC) $(UNIT) $(SUDOERS)
 	mkdir -p $(BIN_PATH)
 	cp $< $@
 	systemctl daemon-reload
-	systemctl enable stgvm
-	systemctl start stgvm
-	systemctl restart stgvm
+	systemctl enable smachine
+	systemctl start smachine
+	systemctl restart smachine
 
 # create the stgvm service unit
 $(UNIT): unit.sh
 	./$<
-	mv ./stgvm.service $@
+	mv ./smachine.service $@
 
 $(SUDOERS): sudoers.sh
 	echo $(shell ./sudoers.sh) > $@

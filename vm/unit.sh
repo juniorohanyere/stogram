@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-TARGET=stgvm.service
+TARGET=smachine.service
 
 # create the service unit
 
 cat << EOF > $TARGET
-# STGVM - Stogram Virtual Machine
-# service unit file for STGVM
+# SMachine - Stogram Virtual Machine
+# service unit file for SMachine
 
 [Unit]
-Description=STGVM - Stogram Virtual Machine
+Description=SMachine - Stogram Virtual Machine
 After=network.service
 
 [Service]
-ExecStart=$(which sudo) /usr/bin/stgvm
+ExecStart=$(which sudo) /usr/bin/smachine
 Restart=always
 User=$SUDO_USER
 Environment="DISPLAY=$DISPLAY"
