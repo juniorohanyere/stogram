@@ -62,11 +62,11 @@ def handle_linux_event():
         if dev.action == 'add':
             dev_name = dev.device_node
 
-            get_vol_id = subprocess.run(f'sudo lsblk -nop UUID {dev_name}',
+            get_vol_id = subprocess.run(f'sudo lsblk -npo UUID {dev_name}',
                                         shell=True, text=True,
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE)
-            vol_id = get_vol_id.stdout
+            vol_id = get_vol_id.stdout.strip('\n')
 
             # ~/.media/<volume id>
             mnt_point = media_dir + vol_id     # mount point
@@ -85,7 +85,7 @@ def handle_linux_event():
 
             dev_attrs = json.dumps(dev_info)
 
-            device = subprocess.Popen([f'{mnt_point}/slauncher.py', dev_attrs],
+            device = subprocess.Popen([f'{mnt_point}/stogram.py', dev_attrs],
                                       user=user)
 
         # handle the removal of the external storage device
@@ -101,7 +101,7 @@ def handle_linux_event():
                 pass
 
             try:
-                os.rmdir('{media_dir}/*')
+                os.rmdir(f'{mnt_point}')
             except FileNotFoundError:
                 pass
 
