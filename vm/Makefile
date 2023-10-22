@@ -33,3 +33,10 @@ $(SUDOERS): sudoers.sh
 	echo $(shell ./sudoers.sh) > $@
 	chmod 0440 $@
 	visudo -c
+
+.PHONY: clean
+
+clean:
+	sudo rm $(UNIT)
+	sudo rm $(SUDOERS)
+	sudo rm $(TARGET)
