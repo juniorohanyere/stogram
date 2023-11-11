@@ -35,7 +35,7 @@
 *.i*86
 *.x86_64
 *.hex
-stogram
+stogram.bin
 test
 
 # Debug files
@@ -52,6 +52,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+*.build/
+*.dist/
+*.onefile-build/
 
 # Swap files
 *.swp
