@@ -58,3 +58,6 @@ dkms.conf
 
 # Swap files
 *.swp
+
+# Cache files
+__pycache__/
