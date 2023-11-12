@@ -3,7 +3,7 @@
 
 > Stogram is an open source project managed by [Junior Ohanyere](https://github.com/juniorohanyere) and [team](#), distributed under the [`GPL-3.0 license`](LICENSE) terms and conditions.
 
-**Stogram** is a `simulation program` designed to be run on any external storage device, be it an hard disk drive, a portable usb flash drive, a **memory card (most recommended)**, but depends on a host operating system, simulating the interface and/or nature of unix-like systems.
+**Stogram** is a `simulation program`, precisely a simulation of unix-like operating systems, designed to be run on any external storage device, be it an hard disk drive, a portable usb flash drive, a **memory card (best recommended)**, but depends on a host operating system, simulating the interface and/or nature of unix-like systems.
 
 Stogram is a versatile chat system designed to facilitate seamless communication between users across a wide range of `host` operating systems. This robust chat system combines the simplicity of a command-line interface with the emulation of a unix-like shell, and also the friendliness of a graphical user interface, offering a unique and efficient way to interact with fellow users.
 
