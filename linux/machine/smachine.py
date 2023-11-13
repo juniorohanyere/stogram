@@ -34,6 +34,14 @@ def handle_event():
         if dev.action == 'add':
             dev_name = dev.device_node
 
+            # make sure the device is not mounted at any other point(s)
+            try:
+                while True:
+                    subprocess.run(f'sudo umount {dev_name}', shell=True,
+                                   text=True)
+            except Exception:
+                pass
+
             get_vol_id = subprocess.run(f'sudo lsblk -npo UUID {dev_name}',
                                         shell=True, text=True,
                                         stdout=subprocess.PIPE,
